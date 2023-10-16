@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useBackHandler} from '@react-native-community/hooks';
 import {CardField, useStripe} from '@stripe/stripe-react-native';
 import CheckoutPage from './CheckoutPage';
+import PaymentScreen from './PaymentScreen';
 import axios from 'axios';
 const ModalComponent = () => {
   const navigation = useNavigation();
@@ -30,8 +31,12 @@ const ModalComponent = () => {
   const [currency, setCurrency] = useState('usd');
   // const {initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment} =
   //   useStripe();
-  const {initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment,createToken} =
-    useStripe();
+  const {
+    initPaymentSheet,
+    presentPaymentSheet,
+    confirmPaymentSheetPayment,
+    createToken,
+  } = useStripe();
 
   const onCheckout = async () => {
     try {
@@ -394,9 +399,8 @@ const ModalComponent = () => {
                 shadowColor: '#000',
                 elevation: 5,
               }}
-              onPress={onCheckout}
-              // onPress={() => navigation.navigate('CheckoutPage')}
-            >
+              // onPress={onCheckout}
+              onPress={() => navigation.navigate('PaymentScreen')}>
               <Text
                 style={{
                   color: '#fff',

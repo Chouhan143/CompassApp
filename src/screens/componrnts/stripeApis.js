@@ -1,16 +1,32 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const creatPaymentIntent = data => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post('http://localhost:4002/payment-sheet', data)
-      .then(function (res) {
-        resolve(res);
-      })
-      .catch(function (error) {
-        reject(error);
-      });
-  });
+const createPaymentIntent = async data => {
+  try {
+    // Retrieve the access token from AsyncStorage
+    const token = await AsyncStorage.getItem('access_token');
+
+    if (!token) {
+      throw new Error('Access token is missing or invalid.');
+    }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await axios.post(
+      'https://app.srninfotech.com/compass/api/check-out',
+      data,
+      {
+        headers,
+      },
+    );
+
+    return response.data; // Assuming the API response contains the data you need
+  } catch (error) {
+    throw error;
+  }
 };
 
-export default creatPaymentIntent;
+export default createPaymentIntent;
