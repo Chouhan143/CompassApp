@@ -83,7 +83,7 @@ const PaymentScreen = () => {
   const ondone = async () => {
     let apiData = {
       amount: 2500,
-      currency: 'inr',
+      currency: 'usd',
     };
 
     try {

@@ -32,8 +32,10 @@ import {StripeProvider} from '@stripe/stripe-react-native';
 const Drawer = createDrawerNavigator();
 
 function App() {
-  const publishableKey =
-    'pk_test_51O0NEfSCYfvSqN8a5J7loVdluHTBBKI883vRBmpEe8W3uLLZKYTQ08yBCfgMW5d0dJFl8fSQmLhz8SagZGCaMLwA00HNNiu8CK';
+    // const publishableKey =
+      // 'pk_test_51O0NEfSCYfvSqN8a5J7loVdluHTBBKI883vRBmpEe8W3uLLZKYTQ08yBCfgMW5d0dJFl8fSQmLhz8SagZGCaMLwA00HNNiu8CK';
+    const publishableKey =
+      'pk_test_51O1ruqGeHhuFbcStdbNBd4c8Nv1didmZ5pSfSqEIxOuAmVm6YYbI9ZqFDB7eEtXgbOW7aG5XFm7kH22xBNgasrcF00zsIMzz6f';
 
   const GradientHeader = () => (
     <LinearGradient
