@@ -1,46 +1,52 @@
 //import liraries
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from 'react-native';
-
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
 
 const ButtonComp = ({
-    text = 'DONE',
-    onPress = () => { },
-    disabled = false,
-    btnStyle = {},
-    isLoading = false
+  text = 'PAY',
+  onPress = () => {},
+  disabled = false,
+  btnStyle = {},
+  isLoading = false,
 }) => {
-    return (
-        <TouchableOpacity
-            onPress={onPress}
-            style={{
-                ...styles.container,
-                backgroundColor: !disabled ? '#D7654D' : 'grey',
-                ...btnStyle,
-
-            }}
-            disabled={disabled}
-        >
-            {isLoading ? <ActivityIndicator size={'small'} /> : <Text style={styles.textStyle}>{text}</Text>}
-
-
-        </TouchableOpacity>
-    );
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        ...styles.container,
+        backgroundColor: !disabled ? 'blue' : 'grey',
+        ...btnStyle,
+      }}
+      disabled={disabled}>
+      {isLoading ? (
+        <ActivityIndicator size={'small'} />
+      ) : (
+        <Text style={styles.textStyle}>{text}</Text>
+      )}
+    </TouchableOpacity>
+  );
 };
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        height: 42,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
+  container: {
+    width: responsiveWidth(90),
+    height: 42,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
-    textStyle: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: 'white'
-    }
+  textStyle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white',
+  },
 });
 
 //make this component available to the app

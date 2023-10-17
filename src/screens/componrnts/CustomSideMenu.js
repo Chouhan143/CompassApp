@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -18,12 +18,13 @@ import Icon2 from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 // import Icon3 from 'react-native-vector-icons/FontAwesome6Brands';
 import Icon4 from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CustomSideMenu = () => {
   const [selectedId, setSelectedId] = useState(null);
   const Home = <Icon name="home" size={20} color="#000" />;
   const Compass = <Icon2 name="direction" size={20} color="#000" />;
-
+  const [userName, setUserName] = useState('');
   const Profile = <Icon name="profile" size={20} color="#000" />;
   const Subscroptions = <Icon4 name="subscriptions" size={20} color="#000" />;
   const Share = <Icon name="sharealt" size={20} color="#000" />;
@@ -41,12 +42,46 @@ const CustomSideMenu = () => {
     // {icon: myIcon, title: 'Other'},
   ];
   const BottomList = [
-    {icon: Share, title: 'Share'},
+    // {icon: Share, title: 'Share'},
     {icon: Logout, title: 'Logout', screenName: 'HomeScreen'},
   ];
 
   const Item = ({icon, title, onPress, backgroundColor, color, screenName}) => {
     const navigation = useNavigation();
+
+    // const handleLogout = () => {
+    //   // Show a confirmation dialog before logging out
+    //   Alert.alert(
+    //     'Logout Confirmation',
+    //     'Are you sure you want to logout?',
+    //     [
+    //       {
+    //         text: 'Cancel',
+    //         style: 'cancel',
+    //       },
+    //       {
+    //         text: 'Logout',
+    //         onPress: async () => {
+    //           // Clear user data and navigate to the logout screen
+    //           await AsyncStorage.clear(); // Clear all data stored in AsyncStorage
+    //           navigation.navigate('LogoutScreen'); // Navigate to your logout screen
+    //         },
+    //       },
+    //     ],
+    //     {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
+    //   );
+    // };
+
+    useEffect(() => {
+      async function fetchUserName() {
+        const storedUserName = await AsyncStorage.getItem('Name');
+        if (storedUserName) {
+          setUserName(storedUserName);
+        }
+      }
+      fetchUserName();
+    }, []);
+
     return (
       <TouchableOpacity
         style={{
@@ -127,7 +162,7 @@ const CustomSideMenu = () => {
               color: 'white',
               //   paddingTop: responsiveHeight(15),
             }}>
-            Mr. Sunil Chouhan
+            Mr. {userName}
           </Text>
         </ImageBackground>
       </View>

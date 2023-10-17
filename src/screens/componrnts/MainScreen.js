@@ -62,6 +62,13 @@ Further, the Red combinations are the Sheng & Wang, so you know immediately whic
 You should follow the e-guide to get the full value and usage of each ring of this exhaustive SMartLuoPan®, it is like an intermediate fs course in itself.`,
       imageSource: require('../assets/images/kigi.png'),
     },
+
+    {
+      name: 'Annual Ring 2023',
+      description: `Use this to determine the various impacts of energies for each direction in the current year (2023)
+      `,
+      imageSource: require('../assets/images/2023.png'),
+    },
   ];
 
   return (
@@ -369,6 +376,57 @@ You should follow the e-guide to get the full value and usage of each ring of th
                   }}
                   numberOfLines={3}>
                   {options[2].description}
+                </Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('CompassOverlay', {option: options[5]})
+            }>
+            <LinearGradient
+              start={{x: 0, y: 1}}
+              end={{x: 1, y: 0}}
+              colors={['#A69EEC', '#EBBFD8', '#A69EEC']}
+              style={{
+                width: responsiveWidth(45),
+                height: responsiveHeight(30),
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: responsiveWidth(3),
+              }}>
+              <Image
+                source={options[5].imageSource}
+                style={{
+                  flex: 1,
+                  width: responsiveWidth(30),
+                  height: responsiveWidth(30),
+                  resizeMode: 'contain',
+                }}
+              />
+
+              <View style={{flex: 1}}>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.9),
+                    fontWeight: '600',
+                    color: '#000',
+                    marginTop: responsiveHeight(1.5),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={1}>
+                  {options[5].name}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: responsiveFontSize(1.5),
+                    fontWeight: '400',
+                    color: '#000',
+                    marginTop: responsiveHeight(1),
+                    paddingHorizontal: responsiveWidth(2),
+                  }}
+                  numberOfLines={3}>
+                  {options[5].description}
                 </Text>
               </View>
             </LinearGradient>

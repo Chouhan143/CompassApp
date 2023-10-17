@@ -71,15 +71,7 @@ const ModalComponent = () => {
         );
       }
 
-      const paymentOption = {
-        method: 'card',
-        card: {
-          number: '4242 4242 4242 4242',
-          expMonth: 12,
-          expYear: 25,
-          cvc: '123',
-        },
-      };
+      
 
       // 2. Initialize the Payment Sheet
       // const {error: paymentSheetError} = await initPaymentSheet({
@@ -233,9 +225,9 @@ const ModalComponent = () => {
   };
 
   // Call the checkSubscriptionStatus function when the user logs in
-  useEffect(() => {
-    checkSubscriptionStatus();
-  }, []);
+  // useEffect(() => {
+  //   checkSubscriptionStatus();
+  // }, []);
 
   // function backActionhandler() {
   //   Alert.alert('', 'Are you sure to exit the app ?', [
@@ -287,139 +279,125 @@ const ModalComponent = () => {
         resizeMode="cover"
         style={{width: '100%', height: '100%', flex: 1}}
       />
+      <View style={{position: 'absolute'}}>
+        <LinearGradient
+          start={{x: 0, y: 1}}
+          end={{x: 1, y: 0}}
+          colors={['#A69EEC', '#EBBFD8', '#A69EEC']}
+          style={styles.modalView}>
+          <View style={{marginTop: responsiveHeight(6)}}>
+            <Text style={styles.modalText}>Your First 3 months free</Text>
+            <Text
+              style={[styles.modalSubText, {marginTop: responsiveHeight(0.7)}]}>
+              No commitment. Cancel anytime{' '}
+            </Text>
+          </View>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        // onRequestClose={() => {
-        //   Alert.alert('Modal has been closed.');
-        //   setModalVisible('true');
-        // }}
-      >
-        <View style={styles.centeredView}>
-          <LinearGradient
-            start={{x: 0, y: 1}}
-            end={{x: 1, y: 0}}
-            colors={['#A69EEC', '#EBBFD8', '#A69EEC']}
-            style={styles.modalView}>
-            <View style={{marginTop: responsiveHeight(6)}}>
-              <Text style={styles.modalText}>Your First 3 months free</Text>
-              <Text
-                style={[
-                  styles.modalSubText,
-                  {marginTop: responsiveHeight(0.7)},
-                ]}>
-                No commitment. Cancel anytime{' '}
-              </Text>
+          <View
+            style={{
+              width: responsiveWidth(70),
+              height: responsiveHeight(7),
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              borderRadius: responsiveWidth(2),
+              justifyContent: 'space-around',
+              flexDirection: 'row',
+              marginTop: responsiveHeight(5),
+            }}>
+            <View
+              style={{
+                justifyContent: 'center',
+                paddingHorizontal: responsiveWidth(3),
+
+                borderRightWidth: 1,
+                borderRightColor: '#A69EEC',
+              }}>
+              <Text style={styles.modalText}>12 Months VIP</Text>
+              <Text style={styles.modalSubText}>Subscription</Text>
             </View>
 
             <View
               style={{
-                width: responsiveWidth(70),
-                height: responsiveHeight(7),
-                backgroundColor: 'rgba(255,255,255,0.5)',
-                borderRadius: responsiveWidth(2),
-                justifyContent: 'space-around',
-                flexDirection: 'row',
-                marginTop: responsiveHeight(5),
+                flex: 1,
+                justifyContent: 'center',
+                paddingHorizontal: responsiveWidth(3),
+                borderRightWidth: 1,
+                borderRightColor: '#A69EEC',
               }}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  paddingHorizontal: responsiveWidth(3),
-
-                  borderRightWidth: 1,
-                  borderRightColor: '#A69EEC',
-                }}>
-                <Text style={styles.modalText}>12 Months VIP</Text>
-                <Text style={styles.modalSubText}>Subscription</Text>
-              </View>
-
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  paddingHorizontal: responsiveWidth(3),
-                  borderRightWidth: 1,
-                  borderRightColor: '#A69EEC',
-                }}>
-                <Text
-                  style={[
-                    styles.modalText,
-                    {
-                      textDecorationLine: 'line-through',
-                      textDecorationColor: '#000',
-                      color: 'rgba(0, 0, 0,0.5)',
-                      fontSize: responsiveFontSize(1.6),
-                    },
-                  ]}>
-                  $30.99
-                </Text>
-                <Text style={styles.modalText}>$28</Text>
-              </View>
-
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#61D370',
-                  borderTopRightRadius: responsiveWidth(2),
-                  borderBottomRightRadius: responsiveWidth(2),
-                }}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    fontWeight: '700',
-                    fontSize: responsiveFontSize(2),
-                  }}>
-                  60%
-                </Text>
-                <Text
-                  style={{
-                    color: '#fff',
-                    fontWeight: '700',
-                    fontSize: responsiveFontSize(2),
-                  }}>
-                  OFF
-                </Text>
-              </View>
+              <Text
+                style={[
+                  styles.modalText,
+                  {
+                    textDecorationLine: 'line-through',
+                    textDecorationColor: '#000',
+                    color: 'rgba(0, 0, 0,0.5)',
+                    fontSize: responsiveFontSize(1.6),
+                  },
+                ]}>
+                $30.99
+              </Text>
+              <Text style={styles.modalText}>$28</Text>
             </View>
 
-            <Pressable
+            <View
               style={{
-                width: responsiveWidth(60),
-                height: responsiveHeight(6),
-                backgroundColor: '#A69EEC',
-                borderRadius: responsiveWidth(10),
-                marginTop: responsiveHeight(7),
+                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
-                shadowColor: '#000',
-                elevation: 5,
-              }}
-              // onPress={onCheckout}
-              onPress={() => navigation.navigate('PaymentScreen')}>
+                backgroundColor: '#61D370',
+                borderTopRightRadius: responsiveWidth(2),
+                borderBottomRightRadius: responsiveWidth(2),
+              }}>
               <Text
                 style={{
                   color: '#fff',
-                  fontWeight: '800',
+                  fontWeight: '700',
                   fontSize: responsiveFontSize(2),
-                  letterSpacing: 1,
                 }}>
-                Subscribe
+                60%
               </Text>
-            </Pressable>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontWeight: '700',
+                  fontSize: responsiveFontSize(2),
+                }}>
+                OFF
+              </Text>
+            </View>
+          </View>
 
-            {/* <Pressable
+          <Pressable
+            style={{
+              width: responsiveWidth(60),
+              height: responsiveHeight(6),
+              backgroundColor: '#A69EEC',
+              borderRadius: responsiveWidth(10),
+              marginTop: responsiveHeight(7),
+              justifyContent: 'center',
+              alignItems: 'center',
+              shadowColor: '#000',
+              elevation: 5,
+            }}
+            // onPress={onCheckout}
+            onPress={() => navigation.navigate('PaymentScreen')}>
+            <Text
+              style={{
+                color: '#fff',
+                fontWeight: '800',
+                fontSize: responsiveFontSize(2),
+                letterSpacing: 1,
+              }}>
+              Subscribe
+            </Text>
+          </Pressable>
+
+          {/* <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable> */}
-          </LinearGradient>
-        </View>
-      </Modal>
+        </LinearGradient>
+      </View>
     </View>
   );
 };

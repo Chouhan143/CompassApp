@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   responsiveWidth,
@@ -12,8 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('test@gmail.com');
+  const [email, setEmail] = useState('sunilchouhan773@gmail.com');
   const [password, setPassword] = useState('12345678');
+  const [lastTransaction, setLastTransaction] = useState('');
   //Login Api here
 
   const LoginApi = async () => {
@@ -27,9 +28,11 @@ const Login = () => {
       const response = await axios.post(Url, Payload);
       if (response.status === 200) {
         const accessToken = response.data.access_token;
+        const username = response.data.Name;
+        const lastTransaction = response.data.last_transaction_status;
         await AsyncStorage.setItem('access_token', accessToken);
-
-        // navigation.navigate('Home');
+        await AsyncStorage.setItem('Name', username);
+        setLastTransaction(lastTransaction);
         checkSubscriptionStatus();
       }
       console.log(response.data, 'response');
@@ -38,22 +41,37 @@ const Login = () => {
     }
   };
 
+  // const checkSubscriptionStatus = async () => {
+  //   const hasSubscription = await AsyncStorage.getItem('Subscription');
+  //   if (hasSubscription === 'true') {
+  //     // User has an active subscription, navigate to the main screen
+  //     navigation.navigate('Home');
+  //     console.log('if part run');
+  //   } else {
+  //     navigation.navigate('ModalComponent');
+  //     console.log('else part run');
+  //     // User does not have a subscription, show the subscription modal or take other actions
+  //     // You can display a subscription button or show the modal here.
+  //   }
+  // };
+
   const checkSubscriptionStatus = async () => {
-    const hasSubscription = await AsyncStorage.getItem('Subscription');
-    if (hasSubscription === 'true') {
-      // User has an active subscription, navigate to the main screen
-      navigation.navigate('Home');
-      console.log('if part run');
-    } else {
+    if (lastTransaction === 'No Transaction Found') {
+      // lastTransaction is an empty array, navigate to the ModalComponent screen
       navigation.navigate('ModalComponent');
-      console.log('else part run');
-      // User does not have a subscription, show the subscription modal or take other actions
-      // You can display a subscription button or show the modal here.
+      console.log('Navigating to ModalComponent');
+    } else if (lastTransaction === 'Transaction is still valid') {
+      // lastTransaction has data, navigate to the Home screen
+      navigation.navigate('Home');
+      console.log('Navigating to Home');
+    } else if (lastTransaction === 'Transaction has expired') {
+      navigation.navigate('ModalComponent');
     }
   };
 
-  
- 
+  // useEffect(() => {
+  //   checkSubscriptionStatus();
+  // }, []);
 
   return (
     <LinearGradient

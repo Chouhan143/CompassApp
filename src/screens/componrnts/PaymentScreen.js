@@ -1,71 +1,24 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {useStripe, useConfirmPayment} from '@stripe/stripe-react-native';
 
 import {CardField, createToken} from '@stripe/stripe-react-native';
 import createPaymentIntent from './stripeApis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonComp from './ButtonComp';
+import SuccessModal from './SuccessModal';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+} from 'react-native-responsive-dimensions';
+import axios from 'axios';
 const PaymentScreen = () => {
-  const [name, setName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [exp, setExp] = useState('');
-  const [code, setCode] = useState('');
-  const [cardInfo, setCardInfo] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const [paypalUrl, setPaypalUrl] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-
-  const {createPaymentMethod} = useStripe();
+  const [amount, setAmount] = useState(28);
   const {confirmPayment, loading} = useConfirmPayment();
-
-  const handlePayment = async () => {
-    try {
-      const cardDetails = {
-        number: cardNumber.replace(/\s/g, ''), // Remove spaces
-        expMonth: exp.split('/')[0],
-        expYear: exp.split('/')[1],
-        cvc: code,
-      };
-
-      console.log('dhfh', cardDetails);
-      // Create a PaymentMethod
-      const {paymentMethod, error} = await createPaymentMethod({
-        type: 'Card',
-        card: cardDetails,
-      });
-
-      if (error) {
-        console.error(error);
-        return; // Handle the error
-      }
-
-      const token = await AsyncStorage.getItem('access_token');
-      // Send the payment method to your API for processing
-      const response = await fetch(
-        'https://app.srninfotech.com/compass/api/check-out',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({paymentMethodId: paymentMethod.id}),
-        },
-      );
-
-      if (response.ok) {
-        // Payment successful
-        // You can show a success modal or navigate to the success screen here
-      } else {
-        // Handle API response errors
-        console.error('Payment failed:', response.status);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const [cardInfo, setCardInfo] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const fetchCardDetail = cardDetail => {
     // console.log("my card details",cardDetail)
     if (cardDetail.complete) {
@@ -75,94 +28,108 @@ const PaymentScreen = () => {
     }
   };
 
+  const handlePaymentSuccess = () => {
+    // Perform payment logic here
+
+    // Open the success modal after payment
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    // Close the success modal
+    setModalVisible(false);
+  };
+
   // const ondone = async () => {
   //   const rest = await createToken({...cardInfo, type: 'Card'});
   //   console.log('dsdfdsf', rest);
   // };
 
   const ondone = async () => {
-    let apiData = {
-      amount: 2500,
-      currency: 'usd',
-    };
-
     try {
-      const res = await createPaymentIntent(apiData);
-      console.log('payment intent create succesfully...!!!', res);
-      console.log('payment pls aajja', res.paymentIntent);
+      const apiData = {
+        amount: Math.floor(amount * 100),
+        currency: 'usd',
+      };
 
-      if (res?.paymentIntentClient?.client_secret) {
-        let confirmPaymentIntent = await confirmPayment(
-          res?.paymentIntentClient?.client_secret,
-          {
-            paymentMethodType: 'Card',
-          },
+      const res = await createPaymentIntent(apiData);
+
+      if (!res?.paymentIntentClient?.client_secret) {
+        // Handle the case where no client secret is received
+        return;
+      }
+
+      const confirmPaymentIntent = await confirmPayment(
+        res.paymentIntentClient.client_secret,
+        {
+          paymentMethodType: 'Card',
+        },
+      );
+
+      if (confirmPaymentIntent?.paymentIntent?.status === 'Succeeded') {
+        // Payment succeeded, proceed with further actions
+        const payload = {
+          transaction_id: confirmPaymentIntent.paymentIntent.paymentMethod.id,
+          amount: confirmPaymentIntent.paymentIntent.amount,
+          currency: confirmPaymentIntent.paymentIntent.currency,
+          payment_intent: confirmPaymentIntent.paymentIntent.id,
+          transaction_status: confirmPaymentIntent.paymentIntent.status,
+        };
+
+        const token = await AsyncStorage.getItem('access_token');
+
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        };
+
+        const transactionStore = await axios.post(
+          'https://app.srninfotech.com/compass/api/transaction-store',
+          payload,
+          {headers},
         );
-        console.log('confirmPaymentIntent res++++', confirmPaymentIntent);
-        alert('Payment succesfully...!!!');
+
+        // Handle the success of the transactionStore request here
+        console.log('Transaction Store Response:', transactionStore);
+
+        // Call the success handling function
+        handlePaymentSuccess();
+      } else {
+        // Handle the case where payment did not succeed
+        console.log('Payment not successful');
       }
     } catch (error) {
-      console.log('Error rasied during payment intent', error);
+      // Handle any errors that occur during the payment process
+      console.error('Error raised during payment intent', error);
     }
   };
 
   return (
-    // <View style={{flex: 1, backgroundColor: '#fff'}}>
-    //   <View style={{marginHorizontal: 20, marginVertical: 40}}>
-    //     <Text style={{fontSize: 24, fontWeight: 'bold', color: 'black'}}>
-    //       Payment details
-    //     </Text>
-    //   </View>
-    //   <TextInput
-    //     label="User Name"
-    //     value={name}
-    //     onChangeText={text => setName(text)}
-    //     mode="outlined"
-    //     style={{marginHorizontal: 20, marginVertical: 10}}
-    //   />
-    //   <TextInput
-    //     label="Card Number"
-    //     value={cardNumber}
-    //     onChangeText={text => setCardNumber(text)}
-    //     mode="outlined"
-    //     style={{marginHorizontal: 20, marginVertical: 10}}
-    //   />
-    //   <TextInput
-    //     label="MM/YY"
-    //     value={exp}
-    //     onChangeText={text => setExp(text)}
-    //     mode="outlined"
-    //     style={{marginHorizontal: 20, marginVertical: 10}}
-    //   />
-    //   <TextInput
-    //     label="CVC"
-    //     value={code}
-    //     onChangeText={text => setCode(text)}
-    //     mode="outlined"
-    //     style={{marginHorizontal: 20, marginVertical: 10}}
-    //   />
-    //   <TouchableOpacity
-    //     style={{
-    //       width: '90%',
-    //       height: 50,
-    //       backgroundColor: 'blue',
-    //       alignSelf: 'center',
-    //       marginVertical: 20,
-    //       justifyContent: 'center',
-    //       alignItems: 'center',
-    //     }}
-    //     onPress={handlePayment}>
-    //     <Text
-    //       style={{
-    //         fontSize: 20,
-    //         fontWeight: '800',
-    //         color: '#fff',
-    //       }}>
-    //       PAY
-    //     </Text>
-    //   </TouchableOpacity>
-    // </View>
-    <View style={{padding: 16}}>
+    <View
+      style={{
+        flex: 1,
+        padding: 16,
+        backgroundColor: `rgba(255,255,255,0.3)`,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <View>
+        <Image
+          source={require('../assets/images/card.png')}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={{justifyContent: 'flex-start', alignSelf: 'flex-start'}}>
+        <Text
+          style={{
+            color: '#000',
+            fontSize: responsiveFontSize(2),
+            fontWeight: '600',
+          }}>
+          Enter your Card Details
+        </Text>
+      </View>
+
       <CardField
         postalCodeEnabled={false}
         placeholders={{
@@ -176,6 +143,7 @@ const PaymentScreen = () => {
           width: '100%',
           height: 50,
           marginVertical: 30,
+          borderRadius: 2,
         }}
         onCardChange={cardDetails => {
           fetchCardDetail(cardDetails);
@@ -185,37 +153,8 @@ const PaymentScreen = () => {
           console.log('focusField', focusedField);
         }}
       />
-
-      {/* <ButtonComp onPress={onDone} disabled={!cardInfo} />
-
-      <ButtonComp
-        onPress={onPressPaypal}
-        disabled={false}
-        btnStyle={{backgroundColor: '#0f4fa3', marginVertical: 16}}
-        text="PayPal"
-        isLoading={isLoading}
-      /> */}
-
-      <TouchableOpacity
-        style={{
-          width: '90%',
-          height: 50,
-          backgroundColor: 'blue',
-          alignSelf: 'center',
-          marginVertical: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        onPress={ondone}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '800',
-            color: '#fff',
-          }}>
-          PAY
-        </Text>
-      </TouchableOpacity>
+      <ButtonComp onPress={ondone} disabled={!cardInfo} isLoading={isLoading} />
+      <SuccessModal visible={isModalVisible} closeModal={closeModal} />
     </View>
   );
 };
