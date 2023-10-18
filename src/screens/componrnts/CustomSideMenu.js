@@ -6,6 +6,7 @@ import {
   ImageBackground,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
@@ -29,22 +30,46 @@ const CustomSideMenu = () => {
   const Subscroptions = <Icon4 name="subscriptions" size={20} color="#000" />;
   const Share = <Icon name="sharealt" size={20} color="#000" />;
   const Logout = <Icon4 name="logout" size={20} color="#000" />;
-
+  const navigation = useNavigation();
   const listArray = [
     {icon: Home, title: 'Home', screenName: 'Home'},
 
     // {icon: Profile, title: 'Profile', screenName: 'Home'},
-    {
-      icon: Subscroptions,
-      title: 'Subscroptions',
-      screenName: 'SubscriptionScreen',
-    },
+    // {
+    //   icon: Subscroptions,
+    //   title: 'Subscroptions',
+    //   screenName: 'SubscriptionScreen',
+    // },
     // {icon: myIcon, title: 'Other'},
   ];
   const BottomList = [
     // {icon: Share, title: 'Share'},
     {icon: Logout, title: 'Logout', screenName: 'HomeScreen'},
   ];
+
+  const handleLogout = async () => {
+    // Show a confirmation dialog before logging out
+
+    Alert.alert(
+      'Logout Confirmation',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Logout',
+          onPress: async () => {
+            // Clear the token from AsyncStorage
+            await AsyncStorage.removeItem('access_token');
+            navigation.navigate('HomeScreen'); // Navigate to your logout screen
+          },
+        },
+      ],
+      {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
+    );
+  };
 
   const Item = ({icon, title, onPress, backgroundColor, color, screenName}) => {
     const navigation = useNavigation();
@@ -169,9 +194,29 @@ const CustomSideMenu = () => {
       <View style={{flex: 0.7, backgroundColor: '#fff'}}>
         <FlatList data={listArray} renderItem={renderItem} />
       </View>
-      <View style={{flex: 0.2}}>
-        <FlatList data={BottomList} renderItem={renderItem} />
-      </View>
+      <TouchableOpacity
+        style={{
+          flex: 0.07,
+          flex: 0.07,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexDirection: 'row',
+          backgroundColor: '#000080',
+          paddingLeft: responsiveWidth(5),
+        }}
+        onPress={handleLogout}>
+        {/* <FlatList data={BottomList} renderItem={renderItem} /> */}
+        <Icon4 name="logout" size={20} color="#fff" />
+        <Text
+          style={{
+            fontSize: responsiveFontSize(2),
+            fontWeight: '600',
+            color: '#fff',
+            paddingLeft: responsiveWidth(3),
+          }}>
+          Logout
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

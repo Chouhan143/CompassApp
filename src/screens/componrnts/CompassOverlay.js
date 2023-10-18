@@ -22,7 +22,7 @@ import Geocoding from 'react-native-geocoding';
 
 const CompassOverlay = ({route}) => {
   const {option} = route.params;
-
+  const [isSatelliteView, setIsSatelliteView] = useState(false);
   const [compassHeading, setCompassHeading] = useState(0);
   const [longitude, setLongitude] = useState('');
   const [latitude, setlatitude] = useState('');
@@ -138,7 +138,8 @@ const CompassOverlay = ({route}) => {
               longitude: parseFloat(longitude),
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
-            }}>
+            }}
+            mapType={isSatelliteView ? 'satellite' : 'standard'}>
             <Marker
               coordinate={{
                 latitude: parseFloat(latitude),
@@ -183,6 +184,7 @@ const CompassOverlay = ({route}) => {
                   resizeMode: 'contain',
                 }}
               />
+
               <Image
                 source={option.imageSource}
                 style={{
@@ -212,7 +214,7 @@ const CompassOverlay = ({route}) => {
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
-                colors={['#A69EEC', '#EBBFD8']}
+                colors={['#000080', '#000080']}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -225,7 +227,7 @@ const CompassOverlay = ({route}) => {
                 }}>
                 <Text
                   style={{
-                    color: 'blue',
+                    color: '#fff',
                     fontSize: responsiveFontSize(1.6),
                     fontWeight: '600',
                     paddingHorizontal: responsiveWidth(8),
@@ -237,7 +239,7 @@ const CompassOverlay = ({route}) => {
                 </Text>
                 <Text
                   style={{
-                    color: 'blue',
+                    color: '#fff',
                     fontSize: responsiveFontSize(1.5),
                     fontWeight: '500',
                   }}>
@@ -300,9 +302,10 @@ const CompassOverlay = ({route}) => {
                   <Image
                     source={option.imageSource}
                     style={{
+                      flex: 1,
                       width: responsiveWidth(100),
                       height: responsiveWidth(100),
-                      resizeMode: 'stretch',
+                      resizeMode: 'contain',
                       transform: [{rotate: imageRotation}], // Rotate the image
                       alignSelf: 'center',
                     }}
@@ -312,50 +315,15 @@ const CompassOverlay = ({route}) => {
                 <Image
                   source={option.imageSource}
                   style={{
-                    width: responsiveWidth(75),
-                    height: responsiveWidth(75),
+                    width: responsiveWidth(100),
+                    height: responsiveWidth(100),
                     resizeMode: 'contain',
                     transform: [{rotate: imageRotation}], // Rotate the image
-                    alignSelf: 'center',
+                    alignSelf: 'contain',
                   }}
                 />
               )}
             </View>
-            <ScrollView
-              style={{
-                flex: 2,
-                backgroundColor: '#F5F5F5',
-                borderTopLeftRadius: responsiveWidth(6),
-                borderTopRightRadius: responsiveWidth(6),
-              }}>
-              <View
-                style={{
-                  paddingHorizontal: responsiveWidth(2),
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(2.3),
-                    fontWeight: '600',
-                    color: '#000',
-                    marginTop: responsiveHeight(2),
-                  }}>
-                  {option.name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: responsiveFontSize(2),
-                    fontWeight: '400',
-                    color: '#000',
-                    marginTop: responsiveHeight(2),
-                    textAlign: 'justify',
-                    paddingHorizontal: responsiveWidth(2),
-                  }}>
-                  {option.description}
-                </Text>
-              </View>
-            </ScrollView>
 
             {/* <View
               style={{
@@ -515,6 +483,35 @@ const CompassOverlay = ({route}) => {
           />
         )}
       </TouchableOpacity>
+      {showMap ? (
+        <TouchableOpacity
+          onPress={() => setIsSatelliteView(!isSatelliteView)}
+          style={{
+            position: 'absolute',
+            top: responsiveHeight(11),
+            left: responsiveWidth(82),
+          }}>
+          {isSatelliteView ? (
+            <Image
+              source={require('../assets/images/orbit.png')}
+              resizeMode="contain"
+              style={{
+                width: responsiveWidth(13),
+                height: responsiveWidth(13),
+              }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/orbit.png')}
+              resizeMode="contain"
+              style={{
+                width: responsiveWidth(13),
+                height: responsiveWidth(13),
+              }}
+            />
+          )}
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

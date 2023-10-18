@@ -30,7 +30,7 @@ const HomeScreen = () => {
       <View style={styles.content2}>
         <TouchableOpacity
           style={{
-            borderColor: '#A69EEC',
+            borderColor: '#000080',
             borderWidth: 2,
             width: responsiveWidth(75),
             height: responsiveHeight(6.5),
@@ -48,14 +48,14 @@ const HomeScreen = () => {
             style={{
               fontSize: responsiveFontSize(2.5),
               fontWeight: '700',
-              color: '#A69EEC',
+              color: '#000080',
             }}>
             Login
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            borderColor: '#A69EEC',
+            borderColor: '#000080',
             borderWidth: 2,
             width: responsiveWidth(75),
             height: responsiveHeight(6.5),
@@ -63,7 +63,7 @@ const HomeScreen = () => {
             paddingHorizontal: responsiveWidth(5),
             marginTop: responsiveHeight(2),
             shadowColor: '#A69EEC',
-            backgroundColor: '#A69EEC',
+            backgroundColor: '#000080',
             elevation: 5,
 
             justifyContent: 'center',

@@ -5,15 +5,22 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import {View, Image, TextInput, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  BackHandler,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test@gmail.com');
+  const [password, setPassword] = useState('12345678');
   const [emailErr, setEmailErr] = useState(null);
   //Login Api here
 
@@ -38,7 +45,7 @@ const Login = () => {
           navigation.navigate('ModalComponent');
           console.log('Navigating to ModalComponent');
         } else if (lastTransaction === 'Transaction is still valid') {
-          navigation.navigate('Home');
+          navigation.navigate('DrawerScreen');
           // console.log('Navigating to Home');
         } else if (lastTransaction === 'Transaction has expired') {
           navigation.navigate('ModalComponent');
@@ -75,7 +82,7 @@ const Login = () => {
     <LinearGradient
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
-      colors={['#A69EEC', '#EBBFD8']}
+      colors={['#0000AE', '#000080']}
       style={{
         flex: 1,
         justifyContent: 'center',
@@ -111,7 +118,7 @@ const Login = () => {
               height: responsiveHeight(6.5),
               borderRadius: responsiveWidth(50),
               paddingHorizontal: responsiveWidth(5),
-              color: '#000',
+              color: '#fff',
               shadowColor: '#fff',
               elevation: 1,
             }}
@@ -133,6 +140,7 @@ const Login = () => {
               shadowColor: '#fff',
               elevation: 1,
               marginTop: responsiveHeight(2),
+              color: '#fff',
             }}
           />
 
@@ -155,7 +163,7 @@ const Login = () => {
 
           <TouchableOpacity
             style={{
-              borderColor: '#A69EEC',
+              borderColor: '#000080',
               borderWidth: 2,
               width: responsiveWidth(75),
               height: responsiveHeight(6.5),
@@ -173,7 +181,7 @@ const Login = () => {
               style={{
                 fontSize: responsiveFontSize(2.5),
                 fontWeight: '700',
-                color: '#000',
+                color: '#000080',
               }}>
               Login
             </Text>
@@ -191,7 +199,7 @@ const Login = () => {
               style={{
                 fontSize: responsiveFontSize(2),
                 fontWeight: '500',
-                color: 'black',
+                color: 'gray',
               }}>
               account Create first ? {}
             </Text>
@@ -200,7 +208,7 @@ const Login = () => {
                 style={{
                   fontSize: responsiveFontSize(2),
                   fontWeight: '500',
-                  color: 'blue',
+                  color: '#fff',
                   justifyContent: 'flex-end',
                 }}>
                 SignUp

@@ -65,7 +65,7 @@ const SignUp = () => {
     <LinearGradient
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
-      colors={['#A69EEC', '#EBBFD8']}
+      colors={['#0000AE', '#000080']}
       style={{
         flex: 1,
         justifyContent: 'center',
@@ -101,7 +101,7 @@ const SignUp = () => {
               height: responsiveHeight(6.5),
               borderRadius: responsiveWidth(50),
               paddingHorizontal: responsiveWidth(5),
-              color: '#000',
+              color: '#fff',
               shadowColor: '#fff',
               elevation: 1,
             }}
@@ -120,7 +120,7 @@ const SignUp = () => {
               borderRadius: responsiveWidth(50),
               paddingHorizontal: responsiveWidth(5),
               marginTop: responsiveHeight(2),
-              color: '#000',
+              color: '#fff',
               shadowColor: '#fff',
               elevation: 1,
             }}
@@ -130,6 +130,7 @@ const SignUp = () => {
             placeholder="Password"
             placeholderTextColor="gray"
             value={password}
+            secureTextEntry
             onChangeText={text => setPassword(text)}
             style={{
               borderColor: '#fff',
@@ -141,6 +142,7 @@ const SignUp = () => {
               shadowColor: '#fff',
               elevation: 1,
               marginTop: responsiveHeight(2),
+              color: '#fff',
             }}
           />
 
@@ -172,7 +174,7 @@ const SignUp = () => {
 
           <TouchableOpacity
             style={{
-              borderColor: '#A69EEC',
+              borderColor: '#000080',
               borderWidth: 2,
               width: responsiveWidth(75),
               height: responsiveHeight(6.5),
@@ -190,7 +192,7 @@ const SignUp = () => {
               style={{
                 fontSize: responsiveFontSize(2.3),
                 fontWeight: '700',
-                color: '#000',
+                color: '#000080',
               }}>
               SignUp
             </Text>
@@ -209,7 +211,7 @@ const SignUp = () => {
             style={{
               fontSize: responsiveFontSize(2),
               fontWeight: '500',
-              color: 'black',
+              color: 'gray',
             }}>
             Do You Have Allready account ? {}
           </Text>
@@ -218,7 +220,7 @@ const SignUp = () => {
               style={{
                 fontSize: responsiveFontSize(2),
                 fontWeight: '500',
-                color: 'blue',
+                color: '#fff',
                 justifyContent: 'flex-end',
               }}>
               Login
