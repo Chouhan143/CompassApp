@@ -14,6 +14,9 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [status, setStatus] = useState(null);
   const navigation = useNavigation();
   const SignUpApi = async () => {
     try {
@@ -25,11 +28,36 @@ const SignUp = () => {
       };
 
       const response = await axios.post(Url, Payload);
+      // console.log(response.data);
       if (response.data.status === 201) {
-        navigation.navigate('Login');
+        setStatus(true);
+        setSuccess(response.data.message);
+        setTimeout(() => {
+          setSuccess(null);
+          navigation.navigate('Login');
+        }, 2000);
       }
     } catch (error) {
-      console.log('error', error.response);
+      // console.log('register error', error.response.data.errors);
+      // console.log(error.data.status);
+      setStatus(false);
+      if (error.response.data.status === 400) {
+        if (
+          error.response.data.errors.email[0] ===
+          'The email has already been taken.'
+        ) {
+          setError(error.response.data.errors.email[0]);
+          setTimeout(() => {
+            setError(null);
+          }, 2000);
+        } else {
+          setError(error.response.data.message);
+          setTimeout(() => {
+            setError(null);
+          }, 2000);
+        }
+        // setStatus(response.data.status);
+      }
     }
   };
 
@@ -116,6 +144,32 @@ const SignUp = () => {
             }}
           />
 
+          {status ? (
+            <View style={{marginTop: responsiveWidth(5)}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2),
+                  fontWeight: '600',
+                  color: 'green',
+                  alignSelf: 'center',
+                }}>
+                {success}
+              </Text>
+            </View>
+          ) : (
+            <View style={{marginTop: responsiveWidth(5)}}>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2),
+                  fontWeight: '600',
+                  color: 'red',
+                  alignSelf: 'center',
+                }}>
+                {error}
+              </Text>
+            </View>
+          )}
+
           <TouchableOpacity
             style={{
               borderColor: '#A69EEC',
@@ -127,7 +181,7 @@ const SignUp = () => {
               shadowColor: '#A69EEC',
               backgroundColor: '#fff',
               elevation: 5,
-              marginTop: responsiveHeight(7),
+              marginTop: responsiveHeight(4),
               justifyContent: 'center',
               alignItems: 'center',
             }}

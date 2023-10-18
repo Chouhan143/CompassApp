@@ -12,9 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('sunilchouhan773@gmail.com');
-  const [password, setPassword] = useState('12345678');
-  const [lastTransaction, setLastTransaction] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailErr, setEmailErr] = useState(null);
   //Login Api here
 
   const LoginApi = async () => {
@@ -26,52 +26,50 @@ const Login = () => {
       };
 
       const response = await axios.post(Url, Payload);
+      // console.log('response login', response.data);
       if (response.status === 200) {
         const accessToken = response.data.access_token;
         const username = response.data.Name;
         const lastTransaction = response.data.last_transaction_status;
         await AsyncStorage.setItem('access_token', accessToken);
         await AsyncStorage.setItem('Name', username);
-        setLastTransaction(lastTransaction);
-        checkSubscriptionStatus();
+
+        if (lastTransaction === 'No Transaction Found') {
+          navigation.navigate('ModalComponent');
+          console.log('Navigating to ModalComponent');
+        } else if (lastTransaction === 'Transaction is still valid') {
+          navigation.navigate('Home');
+          // console.log('Navigating to Home');
+        } else if (lastTransaction === 'Transaction has expired') {
+          navigation.navigate('ModalComponent');
+        }
       }
-      console.log(response.data, 'response');
     } catch (error) {
-      console.log('error', error);
+      // console.log('error', error.response.data.errors);
+      if (error.response.data.message === 'All Fields required!') {
+        if (
+          error.response.data.errors.password[0] ===
+          'The password must be at least 8 characters.'
+        ) {
+          setEmailErr(error.response.data.errors.password[0]);
+          setTimeout(() => {
+            setEmailErr(null);
+          }, 2000);
+        } else {
+          setEmailErr(error.response.data.message);
+          setTimeout(() => {
+            setEmailErr(null);
+          }, 2000);
+        }
+      }
+      if (error.response.data.message === 'Invalid Credentails') {
+        setEmailErr(error.response.data.message);
+        setTimeout(() => {
+          setEmailErr(null);
+        }, 2000);
+      }
     }
   };
-
-  // const checkSubscriptionStatus = async () => {
-  //   const hasSubscription = await AsyncStorage.getItem('Subscription');
-  //   if (hasSubscription === 'true') {
-  //     // User has an active subscription, navigate to the main screen
-  //     navigation.navigate('Home');
-  //     console.log('if part run');
-  //   } else {
-  //     navigation.navigate('ModalComponent');
-  //     console.log('else part run');
-  //     // User does not have a subscription, show the subscription modal or take other actions
-  //     // You can display a subscription button or show the modal here.
-  //   }
-  // };
-
-  const checkSubscriptionStatus = async () => {
-    if (lastTransaction === 'No Transaction Found') {
-      // lastTransaction is an empty array, navigate to the ModalComponent screen
-      navigation.navigate('ModalComponent');
-      console.log('Navigating to ModalComponent');
-    } else if (lastTransaction === 'Transaction is still valid') {
-      // lastTransaction has data, navigate to the Home screen
-      navigation.navigate('Home');
-      console.log('Navigating to Home');
-    } else if (lastTransaction === 'Transaction has expired') {
-      navigation.navigate('ModalComponent');
-    }
-  };
-
-  // useEffect(() => {
-  //   checkSubscriptionStatus();
-  // }, []);
 
   return (
     <LinearGradient
@@ -123,6 +121,7 @@ const Login = () => {
             placeholder="Password"
             placeholderTextColor="gray"
             value={password}
+            secureTextEntry={true}
             onChangeText={text => setPassword(text)}
             style={{
               borderColor: '#fff',
@@ -137,6 +136,23 @@ const Login = () => {
             }}
           />
 
+          <View
+            style={{
+              marginTop: responsiveWidth(5),
+              // flexWrap: 'wrap',
+              // alignItems: 'center', // Center the content horizontally
+            }}>
+            <Text
+              style={{
+                fontSize: responsiveFontSize(1.8),
+                fontWeight: '600',
+                color: 'red',
+                alignSelf: 'center', // Center the text within the parent View
+              }}>
+              {emailErr}
+            </Text>
+          </View>
+
           <TouchableOpacity
             style={{
               borderColor: '#A69EEC',
@@ -148,7 +164,7 @@ const Login = () => {
               shadowColor: '#A69EEC',
               backgroundColor: '#fff',
               elevation: 5,
-              marginTop: responsiveHeight(7),
+              marginTop: responsiveHeight(4),
               justifyContent: 'center',
               alignItems: 'center',
             }}
