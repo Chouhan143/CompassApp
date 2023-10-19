@@ -7,7 +7,14 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import axios from 'axios';
-import {View, Image, TextInput, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 const SignUp = () => {
@@ -17,8 +24,10 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const SignUpApi = async () => {
+    setLoading(true);
     try {
       const Url = 'https://app.srninfotech.com/compass/api/register';
       const Payload = {
@@ -33,6 +42,7 @@ const SignUp = () => {
         setStatus(true);
         setSuccess(response.data.message);
         setTimeout(() => {
+          setLoading(false);
           setSuccess(null);
           navigation.navigate('Login');
         }, 2000);
@@ -49,11 +59,13 @@ const SignUp = () => {
           setError(error.response.data.errors.email[0]);
           setTimeout(() => {
             setError(null);
+            setLoading(false);
           }, 2000);
         } else {
           setError(error.response.data.message);
           setTimeout(() => {
             setError(null);
+            setLoading(false);
           }, 2000);
         }
         // setStatus(response.data.status);
@@ -188,14 +200,18 @@ const SignUp = () => {
               alignItems: 'center',
             }}
             onPress={SignUpApi}>
-            <Text
-              style={{
-                fontSize: responsiveFontSize(2.3),
-                fontWeight: '700',
-                color: '#000080',
-              }}>
-              SignUp
-            </Text>
+            {loading ? (
+              <ActivityIndicator size={'large'} color={'#A69EEC'} />
+            ) : (
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.5),
+                  fontWeight: '700',
+                  color: '#000080',
+                }}>
+                SignUp
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
 

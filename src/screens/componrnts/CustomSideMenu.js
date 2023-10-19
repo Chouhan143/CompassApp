@@ -20,9 +20,18 @@ import {useNavigation} from '@react-navigation/native';
 // import Icon3 from 'react-native-vector-icons/FontAwesome6Brands';
 import Icon4 from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useLogin} from '../utils/context/LoginProvider';
+import axios from 'axios';
 
 const CustomSideMenu = () => {
+  const {setIsLoggedIn} = useLogin();
   const [selectedId, setSelectedId] = useState(null);
+  const [showAmount, setShowAmount] = useState('');
+  const [showCurrency, setShowCurrency] = useState('');
+  const [trxDate, setTrxdate] = useState('');
+  const [ExpDate, setExpdate] = useState('');
+  const [status, setStatus] = useState('');
+
   const Home = <Icon name="home" size={20} color="#000" />;
   const Compass = <Icon2 name="direction" size={20} color="#000" />;
   const [userName, setUserName] = useState('');
@@ -42,14 +51,9 @@ const CustomSideMenu = () => {
     // },
     // {icon: myIcon, title: 'Other'},
   ];
-  const BottomList = [
-    // {icon: Share, title: 'Share'},
-    {icon: Logout, title: 'Logout', screenName: 'HomeScreen'},
-  ];
 
   const handleLogout = async () => {
     // Show a confirmation dialog before logging out
-
     Alert.alert(
       'Logout Confirmation',
       'Are you sure you want to logout?',
@@ -63,6 +67,7 @@ const CustomSideMenu = () => {
           onPress: async () => {
             // Clear the token from AsyncStorage
             await AsyncStorage.removeItem('access_token');
+            setIsLoggedIn(null);
             navigation.navigate('HomeScreen'); // Navigate to your logout screen
           },
         },
@@ -105,6 +110,32 @@ const CustomSideMenu = () => {
         }
       }
       fetchUserName();
+    }, []);
+
+    const SubScriptionGet = async () => {
+      try {
+        const token = await AsyncStorage.getItem('access_token');
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.get(
+          'https://app.srninfotech.com/compass/api/user-transactions',
+          {headers},
+        );
+        const dataSun = res.data.transactions[0];
+        setShowAmount(dataSun.amount);
+        setShowCurrency(dataSun.amount_currency);
+        setTrxdate(dataSun.transaction_date);
+        setExpdate(dataSun.transaction_expiry);
+        setStatus(dataSun.transaction_status);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    useEffect(() => {
+      SubScriptionGet();
     }, []);
 
     return (
@@ -178,7 +209,7 @@ const CustomSideMenu = () => {
               color: 'white',
               paddingTop: responsiveHeight(15),
             }}>
-            Hello !
+            Hi,
           </Text>
           <Text
             style={{
@@ -191,13 +222,78 @@ const CustomSideMenu = () => {
           </Text>
         </ImageBackground>
       </View>
-      <View style={{flex: 0.7, backgroundColor: '#fff'}}>
+      <View style={{flex: 0.09, backgroundColor: '#fff'}}>
         <FlatList data={listArray} renderItem={renderItem} />
       </View>
+      <View style={{flex: 0.6, backgroundColor: '#fff'}}>
+        <View
+          style={{
+            justifyContent: 'flex-start',
+            flexDirection: 'row',
+            marginLeft: responsiveWidth(5),
+          }}>
+          <Icon4 name="subscriptions" size={20} color="#000" />
+          <Text
+            style={{
+              paddingLeft: responsiveWidth(5),
+              color: '#000',
+              fontWeight: '700',
+              fontSize: responsiveFontSize(2),
+            }}>
+            Subscription
+          </Text>
+        </View>
+        {/* subscription data */}
+        <View
+          style={{
+            // justifyContent: 'center',
+            // alignItems: 'center',
+            padding: responsiveWidth(5),
+            width: responsiveWidth(90),
+            height: responsiveHeight(44),
+            borderRadius: responsiveWidth(3),
+            backgroundColor: '#F5F5F5',
+            alignSelf: 'center',
+            marginTop: responsiveHeight(2),
+            elevation: 2,
+            shadowColor: '#000',
+          }}>
+          {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> */}
+          <View>
+            <View style={styles.subscriptionView}>
+              <Text style={styles.subscription}>Amount : $ {showAmount}</Text>
+            </View>
+            <View style={styles.subscriptionView}>
+              <Text style={styles.subscription}>Currency : {showCurrency}</Text>
+            </View>
+            <View style={styles.subscriptionView}>
+              <Text style={styles.subscription}>
+                Transaction Date : {trxDate}
+              </Text>
+            </View>
+            <View style={styles.subscriptionView}>
+              <Text style={styles.subscription}>
+                Transaction Expiry : {ExpDate}
+              </Text>
+            </View>
+            <View
+              style={
+                status === 'Succeeded'
+                  ? styles.succeedBackground
+                  : styles.failBackground
+              }>
+              <Text style={[styles.subscription, {color: '#fff'}]}>
+                Status : {status}
+              </Text>
+            </View>
+          </View>
+          {/* </View> */}
+        </View>
+      </View>
+
       <TouchableOpacity
         style={{
-          flex: 0.07,
-          flex: 0.07,
+          flex: 0.1,
           justifyContent: 'flex-start',
           alignItems: 'center',
           flexDirection: 'row',
@@ -223,4 +319,28 @@ const CustomSideMenu = () => {
 
 export default CustomSideMenu;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  subscription: {
+    fontSize: responsiveFontSize(2),
+    fontWeight: '600',
+    color: '#000',
+  },
+  subscriptionView: {
+    marginVertical: responsiveHeight(1),
+    backgroundColor: '#fff',
+    padding: responsiveHeight(1.5),
+    borderRadius: responsiveWidth(1),
+  },
+  succeedBackground: {
+    backgroundColor: 'green',
+    marginVertical: responsiveHeight(1),
+    padding: responsiveHeight(1.5),
+    borderRadius: responsiveWidth(1),
+  },
+  failBackground: {
+    backgroundColor: 'red',
+    marginVertical: responsiveHeight(1),
+    padding: responsiveHeight(1.5),
+    borderRadius: responsiveWidth(1),
+  },
+});

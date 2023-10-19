@@ -24,6 +24,9 @@ import PaymentScreen from './src/screens/componrnts/PaymentScreen';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createStackNavigator} from '@react-navigation/stack';
+import LoginProvider from './src/screens/utils/context/LoginProvider';
+import MainNavigator from './src/screens/utils/MainNavigator';
+import {useLogin} from './src/screens/utils/context/LoginProvider';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -32,28 +35,43 @@ function App() {
   const publishableKey =
     'pk_test_51O1ruqGeHhuFbcStdbNBd4c8Nv1didmZ5pSfSqEIxOuAmVm6YYbI9ZqFDB7eEtXgbOW7aG5XFm7kH22xBNgasrcF00zsIMzz6f';
 
-  const GradientHeader = () => (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
-      colors={['#A69EEC', '#EBBFD8']}
-      style={{
-        padding: responsiveWidth(3),
-      }}>
-      <Text
+  const {isLoggedIn, setIsLoggedIn} = useLogin();
+  const [initializing, setInitializing] = useState(true);
+  console.log('isLoggedIn', isLoggedIn);
+  const GradientHeader1 = () => {
+    const navigation = useNavigation();
+    return (
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={['#000080', '#000080']}
         style={{
-          color: '#000',
-          fontSize: responsiveFontSize(2.5),
-          fontWeight: '700',
+          padding: responsiveWidth(3),
+          flexDirection: 'row',
+          alignItems: 'center',
         }}>
-        Compass
-      </Text>
-    </LinearGradient>
-  );
+        <Icon
+          name="arrowleft"
+          size={responsiveFontSize(3)}
+          color="#fff"
+          style={{marginLeft: responsiveWidth(3)}}
+          onPress={() => navigation.navigate('Home')}
+        />
+        <Text
+          style={{
+            color: '#fff',
+            fontSize: responsiveFontSize(2.5),
+            fontWeight: '700',
+            paddingLeft: responsiveWidth(3),
+          }}>
+          Back
+        </Text>
+      </LinearGradient>
+    );
+  };
 
   const GradientHeader2 = () => {
     const navigation = useNavigation();
-
     return (
       <LinearGradient
         start={{x: 0, y: 0}}
@@ -84,174 +102,109 @@ function App() {
     );
   };
 
-  const [loggedIn, setLoggedIn] = useState(false);
-
   useEffect(() => {
-    checkStatus();
-  }, []);
-
-  const checkStatus = async () => {
-    try {
-      const token = await AsyncStorage.getItem('access_token');
-      // console.log('token exiting app', token);
-      if (token) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
+    // Check if a token exists in AsyncStorage
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('access_token');
+        if (token) {
+          setIsLoggedIn(token);
+        }
+        setInitializing(false);
+      } catch (error) {
+        // Handle AsyncStorage read error
+        setInitializing(false);
       }
-    } catch (error) {
-      console.error('Error checking login status: ', error);
-    }
-  };
+    };
+
+    checkToken();
+  }, [setIsLoggedIn]);
+
+  if (initializing) {
+    return null; // Render a loading screen while initializing
+  }
 
   return (
     <NavigationContainer>
       <StripeProvider publishableKey={publishableKey}>
-        <Stack.Navigator>
-          {loggedIn ? (
-            <Stack.Screen name="DrawerScreen" options={{headerShown: false}}>
-              {() => (
-                <Drawer.Navigator
-                  initialRouteName="Home"
-                  drawerContent={props => <CustomSideMenu {...props} />}>
-                  <Drawer.Screen
-                    name="Home"
-                    component={MainScreen}
-                    options={{
-                      title: 'Compass',
-                      headerStyle: {
-                        backgroundColor: '#000080',
-                      },
-                      headerTitleStyle: {
-                        alignSelf: 'center',
-                        fontSize: responsiveFontSize(2.5),
-                        fontWeight: '700',
-                      },
-                      headerTintColor: 'white',
-                    }}
-                  />
-                  <Drawer.Screen
-                    name="ModalComponent"
-                    component={ModalComponent}
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Drawer.Screen
-                    name="PaymentScreen"
-                    component={PaymentScreen}
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Drawer.Screen
-                    name="CompassOverlay"
-                    component={CompassOverlay}
-                    options={{
-                      header: () => <GradientHeader2 />,
-                      headerTitleStyle: {alignSelf: 'center'},
-                      headerTintColor: 'white',
-                    }}
-                  />
-                </Drawer.Navigator>
-              )}
-            </Stack.Screen>
-          ) : (
-            <>
-              <Stack.Screen
-                name="HomeScreen"
-                component={HomeScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </>
-          )}
+        <Stack.Navigator
+          initialRouteName={isLoggedIn ? 'Home' : 'HomeScreen'}
+          // drawerContent={props => <CustomSideMenu {...props} />}
+        >
+          <Stack.Screen
+            name="Home"
+            component={MainScreen}
+            options={{
+              title: 'Compass',
+              headerStyle: {
+                backgroundColor: '#000080',
+              },
+              headerTitleStyle: {
+                alignSelf: 'center',
+                fontSize: responsiveFontSize(2.5),
+                fontWeight: '700',
+              },
+              headerShown: false,
+              headerTintColor: 'white',
+            }}
+          />
+          <Stack.Screen
+            name="ModalComponent"
+            component={ModalComponent}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="CustomSideMenu"
+            component={CustomSideMenu}
+            options={{
+              header: () => <GradientHeader1 />,
+              headerTitleStyle: {alignSelf: 'center'},
+              headerTintColor: 'white',
+            }}
+          />
+          <Stack.Screen
+            name="PaymentScreen"
+            component={PaymentScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="CompassOverlay"
+            component={CompassOverlay}
+            options={{
+              header: () => <GradientHeader2 />,
+              headerTitleStyle: {alignSelf: 'center'},
+              headerTintColor: 'white',
+            }}
+          />
+
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
 
-        {/* <Stack.Navigator>
-          {loggedIn ? (
-            <>
-              <Stack.Screen
-                name="Home"
-                component={MainScreen}
-                options={{
-                  title: 'Compass',
-                  headerStyle: {
-                    backgroundColor: '#000080',
-                  },
-                  headerTitleStyle: {
-                    alignSelf: 'center',
-                    fontSize: responsiveFontSize(2.5),
-                    fontWeight: '700',
-                  },
-                  headerTintColor: 'white',
-                }}
-              />
-              <Stack.Screen
-                name="ModalComponent"
-                component={ModalComponent}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="PaymentScreen"
-                component={PaymentScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="CompassOverlay"
-                component={CompassOverlay}
-                options={{
-                  header: () => <GradientHeader2 />,
-                  headerTitleStyle: {alignSelf: 'center'},
-                  headerTintColor: 'white',
-                }}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen
-                name="HomeScreen"
-                component={HomeScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </>
-          )}
-        </Stack.Navigator> */}
+        {/* <MainNavigator /> */}
       </StripeProvider>
     </NavigationContainer>
   );

@@ -1,5 +1,12 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -9,6 +16,21 @@ import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp(); // Exit the app
+      return true; // Prevent default behavior (i.e., do not navigate back)
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove(); // Clean up the event listener on unmount
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* Background Image */}

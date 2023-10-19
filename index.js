@@ -3,6 +3,7 @@ import {AppRegistry} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import App from './App'; // Import your main App component
 import {name as appName} from './app.json';
+import LoginProvider from './src/screens/utils/context/LoginProvider';
 
 // Define your custom theme if needed (you can customize this)
 const theme = {
@@ -17,9 +18,11 @@ const theme = {
 
 function Main() {
   return (
-    <PaperProvider theme={theme}>
-      <App />
-    </PaperProvider>
+    <LoginProvider>
+      <PaperProvider theme={theme}>
+        <App />
+      </PaperProvider>
+    </LoginProvider>
   );
 }
 

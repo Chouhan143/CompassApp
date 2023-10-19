@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Modal, Button, StyleSheet} from 'react-native';
+import {View, Text, Modal, Button, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   responsiveFontSize,
@@ -23,6 +23,13 @@ const SuccessModal = ({visible, closeModal}) => {
       animationType="slide">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
+          <Image
+            source={require('../assets/images/done.png')}
+            style={{
+              width: responsiveWidth(25),
+              height: responsiveWidth(25),
+            }}
+          />
           <Text
             style={{
               fontSize: responsiveFontSize(2.5),
@@ -30,17 +37,28 @@ const SuccessModal = ({visible, closeModal}) => {
               fontWeight: '500',
               marginBottom: 10,
             }}>
-            Payment Successful done!
+            Payment Successful !
           </Text>
-          <Button
-            style={{
-              fontSize: responsiveFontSize(2.5),
-              color: 'green',
-              fontWeight: '500',
-            }}
-            title="Ok"
-            onPress={handleOkPress}
-          />
+
+          <View
+            style={[
+              {
+                width: '90%',
+                margin: 10,
+                backgroundColor: 'red',
+                borderRadius: responsiveWidth(3),
+              },
+            ]}>
+            <Button
+              style={{
+                fontSize: responsiveFontSize(3),
+                color: 'green',
+                fontWeight: '500',
+              }}
+              title="Ok"
+              onPress={handleOkPress}
+            />
+          </View>
         </View>
       </View>
     </Modal>
@@ -60,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     width: responsiveWidth(80),
-    height: responsiveHeight(30),
+    height: responsiveHeight(35),
     justifyContent: 'center',
   },
 });

@@ -6,16 +6,25 @@ import {
   FlatList,
   Image,
   BackHandler,
+  StyleSheet,
+  Alert,
 } from 'react-native';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import Font5 from 'react-native-vector-icons/FontAwesome5';
+import Icon4 from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import SubscriptionModal from './SubscriptionModal';
+import CustomSideMenu from './CustomSideMenu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useLogin} from '../utils/context/LoginProvider';
 
 const MainScreen = ({navigation}) => {
+  const [userName, setUserName] = useState('');
+  const {setIsLoggedIn} = useLogin();
   useEffect(() => {
     const backAction = () => {
       BackHandler.exitApp(); // Exit the app
@@ -31,10 +40,6 @@ const MainScreen = ({navigation}) => {
   }, []);
 
   // console.log()
-
-  const logout = () => {
-    navigation.navigate('Login');
-  };
 
   const options = [
     {
@@ -69,6 +74,41 @@ const MainScreen = ({navigation}) => {
     },
   ];
 
+  const handleLogout = async () => {
+    // Show a confirmation dialog before logging out
+    Alert.alert(
+      'Logout Confirmation',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Logout',
+          onPress: async () => {
+            // Clear the token from AsyncStorage
+            await AsyncStorage.removeItem('access_token');
+            setIsLoggedIn(null);
+            // navigation.navigate('HomeScreen'); // Navigate to your logout screen
+            navigation.navigate('HomeScreen'); // Navigate to your logout screen
+          },
+        },
+      ],
+      {cancelable: false}, // Prevent dismissing the dialog by tapping outside of it
+    );
+  };
+
+  useEffect(() => {
+    async function fetchUserName() {
+      const storedUserName = await AsyncStorage.getItem('Name');
+      if (storedUserName) {
+        setUserName(storedUserName);
+      }
+    }
+    fetchUserName();
+  }, []);
+
   return (
     <View
       style={{
@@ -76,6 +116,88 @@ const MainScreen = ({navigation}) => {
         backgroundColor: '#0000AE',
         // paddingTop: responsiveHeight(5),
       }}>
+      {/* <View
+        style={{
+          backgroundColor: '#000080',
+          padding: responsiveHeight(2),
+          alignItems: 'center',
+          flexDirection: 'row',
+        }}>
+        <TouchableOpacity onPress={() => navigation.navigate('CustomSideMenu')}>
+          <Image
+            source={require('../assets/images/humburger.png')}
+            style={{
+              width: responsiveWidth(6),
+              height: responsiveWidth(6),
+            }}
+          />
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            fontSize: responsiveFontSize(2.2),
+            color: '#fff',
+            fontWeight: '600',
+            paddingLeft: responsiveWidth(5),
+          }}>
+          Compass
+        </Text>
+      </View> */}
+
+      <View style={styles.name_sec}>
+        <View
+          style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
+          <TouchableOpacity
+            style={styles.name_sec_user}
+            onPress={() => navigation.navigate('CustomSideMenu')}>
+            <Font5 name="user-alt" size={responsiveWidth(5)} color="white" />
+          </TouchableOpacity>
+        </View>
+        <View style={{flex: 4.5, flexDirection: 'row'}}>
+          <View
+            style={{
+              flex: 1.2,
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: responsiveFontSize(2),
+                color: '#fff',
+                marginLeft: responsiveWidth(1),
+                paddingLeft: responsiveWidth(2.5),
+              }}>
+              Hii,
+            </Text>
+            <Text style={styles.name_txt}>{userName}</Text>
+          </View>
+          {/* <View
+            style={{
+              flex: 2.5,
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              paddingLeft: responsiveWidth(4),
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CustomSideMenu')}>
+              <Image
+                source={require('../assets/images/humburger.png')}
+                style={{
+                  width: responsiveWidth(6),
+                  height: responsiveWidth(6),
+                }}
+              />
+            </TouchableOpacity>
+          </View> */}
+        </View>
+        <View style={styles.name_sec_icon}>
+          <TouchableOpacity onPress={handleLogout}>
+            <Icon4 name="logout" size={25} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <View
         style={{
           flex: 1,
@@ -438,3 +560,31 @@ const MainScreen = ({navigation}) => {
 };
 
 export default MainScreen;
+
+const styles = StyleSheet.create({
+  name_sec: {
+    width: responsiveWidth(100),
+    height: responsiveHeight(8),
+    flexDirection: 'row',
+    backgroundColor: '#000080',
+  },
+  name_sec_user: {
+    width: responsiveWidth(10),
+    height: responsiveWidth(10),
+    borderRadius: responsiveWidth(5),
+    backgroundColor: '#0000AE',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  name_txt: {
+    fontSize: responsiveFontSize(2.2),
+    color: '#fff',
+    fontWeight: '500',
+    marginHorizontal: responsiveWidth(1),
+  },
+  name_sec_icon: {
+    flex: 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

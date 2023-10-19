@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {useStripe, useConfirmPayment} from '@stripe/stripe-react-native';
 
@@ -33,6 +39,7 @@ const PaymentScreen = () => {
 
     // Open the success modal after payment
     setModalVisible(true);
+    setIsLoading(false);
   };
 
   const closeModal = () => {
@@ -46,6 +53,7 @@ const PaymentScreen = () => {
   // };
 
   const ondone = async () => {
+    setIsLoading(true);
     try {
       const apiData = {
         amount: Math.floor(amount * 100),
@@ -96,7 +104,10 @@ const PaymentScreen = () => {
         handlePaymentSuccess();
       } else {
         // Handle the case where payment did not succeed
-        console.log('Payment not successful');
+        console.log(
+          'Payment not successful',
+          confirmPaymentIntent?.paymentIntent?.status,
+        );
       }
     } catch (error) {
       // Handle any errors that occur during the payment process

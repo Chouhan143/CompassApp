@@ -12,41 +12,47 @@ import {
   TouchableOpacity,
   Text,
   BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useLogin} from '../utils/context/LoginProvider';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('test@gmail.com');
-  const [password, setPassword] = useState('12345678');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [emailErr, setEmailErr] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   //Login Api here
+  const {setIsLoggedIn} = useLogin();
 
   const LoginApi = async () => {
+    setLoading(true);
     try {
       const Url = 'https://app.srninfotech.com/compass/api/login';
       const Payload = {
         email: email,
         password: password,
       };
-
       const response = await axios.post(Url, Payload);
-      // console.log('response login', response.data);
       if (response.status === 200) {
         const accessToken = response.data.access_token;
         const username = response.data.Name;
         const lastTransaction = response.data.last_transaction_status;
         await AsyncStorage.setItem('access_token', accessToken);
         await AsyncStorage.setItem('Name', username);
+        setIsLoggedIn(accessToken);
 
         if (lastTransaction === 'No Transaction Found') {
           navigation.navigate('ModalComponent');
-          console.log('Navigating to ModalComponent');
         } else if (lastTransaction === 'Transaction is still valid') {
-          navigation.navigate('DrawerScreen');
-          // console.log('Navigating to Home');
+          setTimeout(() => {
+            setLoading(false);
+            navigation.navigate('Home');
+          }, 2000);
         } else if (lastTransaction === 'Transaction has expired') {
           navigation.navigate('ModalComponent');
         }
@@ -61,11 +67,13 @@ const Login = () => {
           setEmailErr(error.response.data.errors.password[0]);
           setTimeout(() => {
             setEmailErr(null);
+            setLoading(false);
           }, 2000);
         } else {
           setEmailErr(error.response.data.message);
           setTimeout(() => {
             setEmailErr(null);
+            setLoading(false);
           }, 2000);
         }
       }
@@ -73,6 +81,7 @@ const Login = () => {
         setEmailErr(error.response.data.message);
         setTimeout(() => {
           setEmailErr(null);
+          setLoading(false);
         }, 2000);
       }
     }
@@ -177,14 +186,18 @@ const Login = () => {
               alignItems: 'center',
             }}
             onPress={LoginApi}>
-            <Text
-              style={{
-                fontSize: responsiveFontSize(2.5),
-                fontWeight: '700',
-                color: '#000080',
-              }}>
-              Login
-            </Text>
+            {loading ? (
+              <ActivityIndicator size={'large'} color={'#A69EEC'} />
+            ) : (
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.5),
+                  fontWeight: '700',
+                  color: '#000080',
+                }}>
+                Login
+              </Text>
+            )}
           </TouchableOpacity>
 
           <View
