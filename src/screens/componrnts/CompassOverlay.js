@@ -13,13 +13,14 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
+import Pinchable from 'react-native-pinchable';
 import LinearGradient from 'react-native-linear-gradient';
 import CompassHeading from 'react-native-compass-heading'; // Use only CompassHeading
 import Geolocation from 'react-native-geolocation-service';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import MapView, {Marker} from 'react-native-maps'; // Import MapView from react-native-maps
 import Geocoding from 'react-native-geocoding';
-
+import ImageZoom from 'react-native-image-pan-zoom';
 const CompassOverlay = ({route}) => {
   const {option} = route.params;
   const [isSatelliteView, setIsSatelliteView] = useState(false);
@@ -36,7 +37,6 @@ const CompassOverlay = ({route}) => {
 
     CompassHeading.start(degree_update_rate, ({heading, accuracy}) => {
       setCompassHeading(heading);
-      console.log('CompassHeading: ', heading, accuracy);
     });
 
     return () => {
@@ -100,11 +100,15 @@ const CompassOverlay = ({route}) => {
   const getLocationName = async (latitude, longitude) => {
     try {
       const response = await Geocoding.from({latitude, longitude});
-      const addressComponent = response.results[5].formatted_address;
-      const locationName = addressComponent; // Adjust this based on the desired address component
-      setLocationName(locationName);
+      if (response.results && response.results.length > 0) {
+        const addressComponent = response.results[0].formatted_address; // Adjust the index based on your requirements
+        const locationName = addressComponent;
+        setLocationName(locationName);
+      } else {
+        console.error('No results found in geocoding response.');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error during geocoding:', error);
     }
   };
 
@@ -125,7 +129,7 @@ const CompassOverlay = ({route}) => {
     return directions[index];
   };
 
-  const imageRotation = `${360 - compassHeading}deg`;
+  const imageRotation = `${180 - compassHeading}deg`;
 
   return (
     <View style={styles.container}>
@@ -189,9 +193,9 @@ const CompassOverlay = ({route}) => {
                 source={option.imageSource}
                 style={{
                   position: 'absolute',
-                  top: responsiveHeight(7),
-                  width: responsiveWidth(85),
-                  height: responsiveHeight(50),
+                  top: responsiveHeight(15),
+                  width: responsiveWidth(100),
+                  height: responsiveWidth(100),
                   resizeMode: 'contain',
                   transform: [{rotate: imageRotation}], // Rotate the image
                 }}
@@ -254,75 +258,95 @@ const CompassOverlay = ({route}) => {
           <View
             style={{
               flex: 1,
-              // marginTop: responsiveHeight(1),
             }}>
+            {/* flex 1st */}
+
             <View
               style={{
-                flex: 0.3,
-                justifyContent: 'flex-start',
+                flex: 1,
+                justifyContent: 'space-around',
                 alignItems: 'center',
               }}>
               <View
                 style={{
-                  backgroundColor: '#F5F5F5',
-                  paddingHorizontal: responsiveWidth(4),
-                  paddingVertical: responsiveWidth(2),
-                  borderRadius: responsiveWidth(2),
-                  borderColor: 'gray',
-                  borderWidth: 1,
-                  marginBottom: responsiveHeight(1),
-                  marginTop: responsiveHeight(1),
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  paddingTop: responsiveHeight(20),
                 }}>
-                <Text
+                <View
                   style={{
-                    color: '#000',
-                    fontSize: responsiveFontSize(2.5),
-                    fontWeight: '600',
-                    textAlign: 'center',
+                    backgroundColor: '#F5F5F5',
+                    paddingHorizontal: responsiveWidth(4),
+                    paddingVertical: responsiveWidth(2),
+                    borderRadius: responsiveWidth(2),
+                    borderColor: 'gray',
+                    borderWidth: 1,
+                    marginBottom: responsiveHeight(1),
+                    marginTop: responsiveHeight(1),
                   }}>
-                  {`${compassHeading}° ${getCardinalDirection(compassHeading)}`}
-                </Text>
-              </View>
-              <Image
-                source={require('../assets/images/direction.png')}
-                style={{
-                  width: responsiveWidth(20),
-                  height: responsiveHeight(5),
-                  resizeMode: 'contain',
-                }}
-              />
-            </View>
-
-            {/* flex 1st */}
-
-            <View style={{flex: 1}}>
-              {/* image show karane par size increase */}
-              {showMap ? (
-                <>
-                  <Image
-                    source={option.imageSource}
+                  <Text
                     style={{
-                      flex: 1,
-                      width: responsiveWidth(100),
-                      height: responsiveWidth(100),
-                      resizeMode: 'contain',
-                      transform: [{rotate: imageRotation}], // Rotate the image
-                      alignSelf: 'center',
-                    }}
-                  />
-                </>
-              ) : (
+                      color: '#000',
+                      fontSize: responsiveFontSize(2.5),
+                      fontWeight: '600',
+                      textAlign: 'center',
+                    }}>
+                    {`${compassHeading}° ${getCardinalDirection(
+                      compassHeading,
+                    )}`}
+                  </Text>
+                </View>
                 <Image
-                  source={option.imageSource}
+                  source={require('../assets/images/direction.png')}
                   style={{
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(20),
+                    height: responsiveHeight(5),
                     resizeMode: 'contain',
-                    transform: [{rotate: imageRotation}], // Rotate the image
-                    alignSelf: 'contain',
                   }}
                 />
-              )}
+              </View>
+              <View>
+                {/* image show karane par size increase */}
+                {showMap ? (
+                  <>
+                    <ImageZoom
+                      cropWidth={responsiveWidth(100)}
+                      cropHeight={responsiveHeight(100)}
+                      imageWidth={responsiveWidth(100)}
+                      imageHeight={responsiveHeight(100)}>
+                      <Image
+                        source={option.imageSource}
+                        style={{
+                          flex: 1,
+                          width: responsiveWidth(100),
+                          height: responsiveWidth(100),
+                          resizeMode: 'contain',
+                          transform: [{rotate: imageRotation}], // Rotate the image
+                          alignSelf: 'center',
+                        }}
+                      />
+                    </ImageZoom>
+                  </>
+                ) : (
+                  <ImageZoom
+                    cropWidth={responsiveWidth(100)}
+                    cropHeight={responsiveHeight(100)}
+                    imageWidth={responsiveWidth(100)}
+                    imageHeight={responsiveHeight(100)}>
+                    <Image
+                      source={option.imageSource}
+                      style={{
+                        flex: 1,
+                        width: responsiveWidth(100),
+                        height: responsiveWidth(100),
+                        resizeMode: 'contain',
+                        transform: [{rotate: imageRotation}], // Rotate the image
+                        alignSelf: 'center',
+                      }}
+                    />
+                  </ImageZoom>
+                )}
+              </View>
             </View>
 
             {/* <View
@@ -523,7 +547,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#000080',
   },
   heading: {
     fontSize: 24,

@@ -43,8 +43,8 @@ const MainScreen = ({navigation}) => {
 
   const options = [
     {
-      name: 'Sherry Merchants English SMartLuoPan® ',
-      imageSource: require('../assets/images/originalCompas.png'),
+      name: ' English SMartLuoPan® ',
+      imageSource: require('../assets/images/Twhite.png'),
     },
     {
       name: 'Annual Ring 2024',
@@ -52,17 +52,17 @@ const MainScreen = ({navigation}) => {
       imageSource: require('../assets/images/Basic.png'),
     },
     {
-      name: 'Sherry Merchants English SMartLuoPan® Period 8 & Period 9 Flying Star LuoPan',
+      name: ' English SMartLuoPan® Period 8 & Period 9 Flying Star LuoPan',
 
       imageSource: require('../assets/images/amit2.png'),
     },
     {
-      name: 'Sherry Merchants English SMartLuoPan® Xuan Kong Da Gua Rings ',
+      name: ' English SMartLuoPan® Xuan Kong Da Gua Rings ',
 
       imageSource: require('../assets/images/amit3.png'),
     },
     {
-      name: 'Sherry Merchants English SMartLuoPan® Transparent version',
+      name: ' English SMartLuoPan® Transparent version',
 
       imageSource: require('../assets/images/kigi.png'),
     },
@@ -113,7 +113,7 @@ const MainScreen = ({navigation}) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#0000AE',
+        backgroundColor: '#fff',
         // paddingTop: responsiveHeight(5),
       }}>
       {/* <View
@@ -217,7 +217,7 @@ const MainScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
-              colors={['#007FD1', '#007FD1', '#007FD1']}
+              colors={['#000080', '#000080', '#000080']}
               style={{
                 width: responsiveWidth(45),
                 height: responsiveHeight(29),
@@ -238,7 +238,7 @@ const MainScreen = ({navigation}) => {
               <View style={{flex: 0.5}}>
                 <Text
                   style={{
-                    fontSize: responsiveFontSize(1.9),
+                    fontSize: responsiveFontSize(1.7),
                     fontWeight: '600',
                     color: '#fff',
                     marginTop: responsiveHeight(1.5),
@@ -269,7 +269,7 @@ const MainScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
-              colors={['#007FD1', '#007FD1', '#007FD1']}
+              colors={['#000080', '#000080', '#000080']}
               style={{
                 width: responsiveWidth(45),
                 height: responsiveHeight(29),
@@ -291,7 +291,7 @@ const MainScreen = ({navigation}) => {
               <View style={{flex: 0.5}}>
                 <Text
                   style={{
-                    fontSize: responsiveFontSize(1.9),
+                    fontSize: responsiveFontSize(1.7),
                     fontWeight: '600',
                     color: '#fff',
                     marginTop: responsiveHeight(1.5),
@@ -337,7 +337,7 @@ const MainScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
-              colors={['#007FD1', '#007FD1', '#007FD1']}
+              colors={['#000080', '#000080', '#000080']}
               style={{
                 width: responsiveWidth(45),
                 height: responsiveHeight(29),
@@ -359,13 +359,13 @@ const MainScreen = ({navigation}) => {
               <View style={{flex: 0.5}}>
                 <Text
                   style={{
-                    fontSize: responsiveFontSize(1.9),
+                    fontSize: responsiveFontSize(1.7),
                     fontWeight: '600',
                     color: '#fff',
                     marginTop: responsiveHeight(1.5),
                     paddingHorizontal: responsiveWidth(2),
                   }}
-                  numberOfLines={2}>
+                  numberOfLines={3}>
                   {options[3].name}
                 </Text>
                 <Text
@@ -390,7 +390,7 @@ const MainScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
-              colors={['#007FD1', '#007FD1', '#007FD1']}
+              colors={['#000080', '#000080', '#000080']}
               style={{
                 width: responsiveWidth(45),
                 height: responsiveHeight(29),
@@ -411,7 +411,7 @@ const MainScreen = ({navigation}) => {
               <View style={{flex: 0.5}}>
                 <Text
                   style={{
-                    fontSize: responsiveFontSize(1.9),
+                    fontSize: responsiveFontSize(1.7),
                     fontWeight: '600',
                     color: '#fff',
                     marginTop: responsiveHeight(1.5),
@@ -458,7 +458,7 @@ const MainScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
-              colors={['#007FD1', '#007FD1', '#007FD1']}
+              colors={['#000080', '#000080', '#000080']}
               style={{
                 width: responsiveWidth(45),
                 height: responsiveHeight(29),
@@ -479,13 +479,13 @@ const MainScreen = ({navigation}) => {
               <View style={{flex: 0.5}}>
                 <Text
                   style={{
-                    fontSize: responsiveFontSize(1.9),
+                    fontSize: responsiveFontSize(1.7),
                     fontWeight: '600',
                     color: '#fff',
                     marginTop: responsiveHeight(1.5),
                     paddingHorizontal: responsiveWidth(2),
                   }}
-                  numberOfLines={2}>
+                  numberOfLines={3}>
                   {options[2].name}
                 </Text>
                 <Text
@@ -509,7 +509,7 @@ const MainScreen = ({navigation}) => {
             <LinearGradient
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
-              colors={['#007FD1', '#007FD1', '#007FD1']}
+              colors={['#000080', '#000080', '#000080']}
               style={{
                 width: responsiveWidth(45),
                 height: responsiveHeight(29),
@@ -530,7 +530,7 @@ const MainScreen = ({navigation}) => {
               <View style={{flex: 0.5}}>
                 <Text
                   style={{
-                    fontSize: responsiveFontSize(1.9),
+                    fontSize: responsiveFontSize(1.7),
                     fontWeight: '600',
                     color: '#fff',
                     marginTop: responsiveHeight(1.5),
