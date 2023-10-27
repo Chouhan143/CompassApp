@@ -129,7 +129,7 @@ const CompassOverlay = ({route}) => {
     return directions[index];
   };
 
-  const imageRotation = `${181 - compassHeading}deg`;
+  const imageRotation = `${360 - compassHeading}deg`;
 
   return (
     <View style={styles.container}>
@@ -201,7 +201,9 @@ const CompassOverlay = ({route}) => {
                 />
               </View>
               <Image
-                source={option.imageSource2}
+                source={
+                  isSatelliteView ? option.imageSource : option.imageSource2
+                }
                 style={{
                   position: 'absolute',
                   top: responsiveHeight(15),
@@ -336,7 +338,11 @@ const CompassOverlay = ({route}) => {
                       imageWidth={responsiveWidth(100)}
                       imageHeight={responsiveHeight(100)}>
                       <Image
-                        source={option.imageSource}
+                        source={
+                          isSatelliteView
+                            ? option.imageSource
+                            : option.imageSource2
+                        }
                         style={{
                           flex: 1,
                           width: responsiveWidth(100),
@@ -377,7 +383,7 @@ const CompassOverlay = ({route}) => {
 
       {/* Add your compass overlay content here */}
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => setShowMap(!showMap)}
         style={{
           position: 'absolute',
@@ -406,7 +412,40 @@ const CompassOverlay = ({route}) => {
             }}
           />
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      {option.compasId === 1 || option.compasId2 === 3 ? (
+        <TouchableOpacity
+          onPress={() => setShowMap(!showMap)}
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
+            padding: responsiveWidth(1.1),
+            borderRadius: responsiveWidth(10),
+            borderColor: 'red',
+            borderWidth: 2,
+            borderStyle: 'dashed',
+          }}>
+          {showMap ? (
+            <Image
+              source={require('../assets/images/compass.png')}
+              style={{
+                width: responsiveWidth(10),
+                height: responsiveWidth(10),
+              }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/map.png')}
+              style={{
+                width: responsiveWidth(10),
+                height: responsiveWidth(10),
+              }}
+            />
+          )}
+        </TouchableOpacity>
+      ) : null}
 
       {showMap ? (
         <TouchableOpacity

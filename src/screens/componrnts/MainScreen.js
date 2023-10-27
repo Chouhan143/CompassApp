@@ -43,9 +43,10 @@ const MainScreen = ({navigation}) => {
 
   const options = [
     {
+      compasId: 1,
       name: '24 Mountains Compass ',
-      imageSource: require('../assets/images/Twhite.png'),
-      imageSource2: require('../assets/images/Basic_black.png'),
+      imageSource: require('../assets/images/1st_White.png'),
+      imageSource2: require('../assets/images/1st_Black.png'),
     },
     {
       name: 'Annual Ring 2024',
@@ -58,10 +59,12 @@ const MainScreen = ({navigation}) => {
       imageSource2: require('../assets/images/amit2.png'),
     },
     {
+      compasId2: 3,
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/amit3.png'),
-      imageSource2: require('../assets/images/amit3.png'),
+      imageSource: require('../assets/images/KongDaB.png'),
+      imageSource2: require('../assets/images/KongDaB.png'),
     },
+
     {
       name: 'Transparent version',
       imageSource: require('../assets/images/kigi.png'),
