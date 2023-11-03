@@ -91,7 +91,7 @@ const Login = () => {
     <LinearGradient
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
-      colors={['#0000AE', '#0a2240']}
+      colors={['#0a2240', '#0a2240']}
       style={{
         flex: 1,
         justifyContent: 'center',
@@ -106,7 +106,7 @@ const Login = () => {
           position: 'absolute',
         }}>
         <Image
-          source={require('../assets/images/Logo.jpeg')}
+          source={require('../assets/images/LeoPanWhiteLogo.png')}
           style={{
             width: responsiveWidth(20),
             height: responsiveWidth(20),
