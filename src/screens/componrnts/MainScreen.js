@@ -117,7 +117,7 @@ const MainScreen = ({navigation}) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#000080',
+        backgroundColor: '#0a2240',
       }}>
       <View style={styles.name_sec}>
         <View
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100),
     height: responsiveHeight(10),
     flexDirection: 'row',
-    // backgroundColor: '#000080',
+    // backgroundColor: '#0a2240',
   },
   name_sec_user: {
     width: responsiveWidth(10),

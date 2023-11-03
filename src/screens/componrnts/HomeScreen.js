@@ -35,8 +35,8 @@ const HomeScreen = () => {
     <View style={styles.container}>
       {/* Background Image */}
       <Image
-        source={require('../assets/images/HomeImage.jpg')}
-        resizeMode="cover" // You can use 'cover' to fill the entire view
+        source={require('../assets/images/LuoPanImage.jpeg')}
+        resizeMode="contain" // You can use 'cover' to fill the entire view
         style={styles.backgroundImage}
       />
 
@@ -52,7 +52,7 @@ const HomeScreen = () => {
       <View style={styles.content2}>
         <TouchableOpacity
           style={{
-            borderColor: '#000080',
+            borderColor: '#0a2240',
             borderWidth: 2,
             width: responsiveWidth(75),
             height: responsiveHeight(6.5),
@@ -70,14 +70,14 @@ const HomeScreen = () => {
             style={{
               fontSize: responsiveFontSize(2.5),
               fontWeight: '700',
-              color: '#000080',
+              color: '#0a2240',
             }}>
             Login
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            borderColor: '#000080',
+            borderColor: '#0a2240',
             borderWidth: 2,
             width: responsiveWidth(75),
             height: responsiveHeight(6.5),
@@ -85,7 +85,7 @@ const HomeScreen = () => {
             paddingHorizontal: responsiveWidth(5),
             marginTop: responsiveHeight(2),
             shadowColor: '#A69EEC',
-            backgroundColor: '#000080',
+            backgroundColor: '#0a2240',
             elevation: 5,
 
             justifyContent: 'center',

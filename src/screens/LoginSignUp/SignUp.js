@@ -77,7 +77,7 @@ const SignUp = () => {
     <LinearGradient
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
-      colors={['#0000AE', '#000080']}
+      colors={['#0000AE', '#0a2240']}
       style={{
         flex: 1,
         justifyContent: 'center',
@@ -186,7 +186,7 @@ const SignUp = () => {
 
           <TouchableOpacity
             style={{
-              borderColor: '#000080',
+              borderColor: '#0a2240',
               borderWidth: 2,
               width: responsiveWidth(75),
               height: responsiveHeight(6.5),
@@ -207,7 +207,7 @@ const SignUp = () => {
                 style={{
                   fontSize: responsiveFontSize(2.5),
                   fontWeight: '700',
-                  color: '#000080',
+                  color: '#0a2240',
                 }}>
                 SignUp
               </Text>

@@ -135,22 +135,31 @@ const CompassOverlay = ({route}) => {
     <View style={styles.container}>
       {showMap ? (
         <>
-          <MapView
-            style={[styles.map]}
-            region={{
-              latitude: parseFloat(latitude),
-              longitude: parseFloat(longitude),
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            mapType={isSatelliteView ? 'satellite' : 'standard'}>
-            <Marker
-              coordinate={{
+          {/* Map jo pure screen me hai   */}
+          <View style={{flex: 1}}>
+            <MapView
+              style={[styles.map]}
+              region={{
                 latitude: parseFloat(latitude),
                 longitude: parseFloat(longitude),
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
               }}
-            />
-          </MapView>
+              mapType={isSatelliteView ? 'satellite' : 'standard'}>
+              <Marker
+                coordinate={{
+                  latitude: parseFloat(latitude),
+                  longitude: parseFloat(longitude),
+                }}
+              />
+              {/* Red horizontal line */}
+              <View style={styles.horizontalLine2} />
+              {/* Vertical line */}
+              <View style={styles.verticalLine2} />
+            </MapView>
+          </View>
+
+          {/* compass headinf and arrow And Comapss Image    */}
           <View
             style={{
               position: 'absolute',
@@ -163,7 +172,7 @@ const CompassOverlay = ({route}) => {
                   alignItems: 'center',
                   position: 'absolute',
                   top: responsiveHeight(2),
-                  zIndex: 1,
+                  zIndex: 2,
                 }}>
                 <View
                   style={{
@@ -206,15 +215,16 @@ const CompassOverlay = ({route}) => {
                 }
                 style={{
                   position: 'absolute',
-                  top: responsiveHeight(15),
+                  top: responsiveHeight(24),
                   width: responsiveWidth(100),
                   height: responsiveWidth(100),
-                  resizeMode: 'contain',
+                  resizeMode: 'cover',
                   transform: [{rotate: imageRotation}], // Rotate the image
                 }}
               />
             </View>
           </View>
+          {/*  lat long  box  */}
           <View
             style={{
               justifyContent: 'space-between',
@@ -231,7 +241,7 @@ const CompassOverlay = ({route}) => {
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
-                colors={['#000080', '#000080']}
+                colors={['#0a2240', '#0a2240']}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -267,152 +277,128 @@ const CompassOverlay = ({route}) => {
           </View>
         </>
       ) : (
+        // MapView End here
+        // Simple Compass Show  here
         <>
           <View
             style={{
               flex: 1,
               backgroundColor: '#eaf4fc',
             }}>
-            {/* flex 1st bina map  wala  */}
+            <View style={styles.map}>
+              <View style={styles.horizontalLine} />
 
-            <View
-              style={{
-                justifyContent: 'space-around',
-                alignItems: 'center',
-              }}>
+              {/* Vertical Line */}
+              <View style={styles.verticalLine} />
+
+              {/* flex 1st without map  wala  */}
               <View
                 style={{
-                  justifyContent: 'flex-start',
+                  justifyContent: 'space-around',
                   alignItems: 'center',
-                  paddingTop: responsiveHeight(35),
                 }}>
                 <View
                   style={{
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
-                    position: 'absolute',
-                    top: responsiveHeight(29),
-                    zIndex: 1,
+                    paddingTop: responsiveHeight(5),
+                    zIndex: 3,
                   }}>
                   <View
                     style={{
-                      backgroundColor: '#F5F5F5',
-                      paddingHorizontal: responsiveWidth(4),
-                      paddingVertical: responsiveWidth(2),
-                      borderRadius: responsiveWidth(2),
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                      marginBottom: responsiveHeight(2),
-                      // marginTop: responsiveHeight(1),
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      top: responsiveHeight(20),
                     }}>
-                    <Text
+                    <View
                       style={{
-                        color: '#000',
-                        fontSize: responsiveFontSize(2.5),
-                        fontWeight: '600',
-                        textAlign: 'center',
+                        backgroundColor: '#F5F5F5',
+                        paddingHorizontal: responsiveWidth(4),
+                        paddingVertical: responsiveWidth(2),
+                        borderRadius: responsiveWidth(2),
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        marginBottom: responsiveHeight(2),
                       }}>
-                      {`${compassHeading}° ${getCardinalDirection(
-                        compassHeading,
-                      )}`}
-                    </Text>
-                  </View>
-
-                  <Image
-                    source={require('../assets/images/UpArrow.png')}
-                    style={{
-                      width: responsiveWidth(12),
-                      height: responsiveWidth(12),
-                      resizeMode: 'contain',
-                    }}
-                  />
-                </View>
-              </View>
-              <View>
-                {/* image show karane par size increase */}
-                {showMap ? (
-                  <>
-                    <ImageZoom
-                      cropWidth={responsiveWidth(100)}
-                      cropHeight={responsiveHeight(100)}
-                      imageWidth={responsiveWidth(100)}
-                      imageHeight={responsiveHeight(100)}>
-                      <Image
-                        source={
-                          isSatelliteView
-                            ? option.imageSource
-                            : option.imageSource2
-                        }
+                      <Text
                         style={{
-                          flex: 1,
-                          width: responsiveWidth(100),
-                          height: responsiveWidth(100),
-                          resizeMode: 'contain',
-                          transform: [{rotate: imageRotation}], // Rotate the image
-                          alignSelf: 'center',
-                        }}
-                      />
-                    </ImageZoom>
-                  </>
-                ) : (
-                  <ImageZoom
-                    cropWidth={responsiveWidth(100)}
-                    cropHeight={responsiveHeight(100)}
-                    imageWidth={responsiveWidth(100)}
-                    imageHeight={responsiveHeight(100)}>
+                          color: '#000',
+                          fontSize: responsiveFontSize(2.5),
+                          fontWeight: '600',
+                          textAlign: 'center',
+                        }}>
+                        {`${compassHeading}° ${getCardinalDirection(
+                          compassHeading,
+                        )}`}
+                      </Text>
+                    </View>
+
                     <Image
-                      source={option.imageSource2}
-                      // source={require('../assets/images/Basic_black.png')}
+                      source={require('../assets/images/UpArrow.png')}
                       style={{
-                        flex: 1,
-                        width: responsiveWidth(100),
-                        height: responsiveWidth(100),
+                        width: responsiveWidth(12),
+                        height: responsiveWidth(12),
                         resizeMode: 'contain',
-                        transform: [{rotate: imageRotation}], // Rotate the image
-                        alignSelf: 'center',
                       }}
                     />
-                  </ImageZoom>
-                )}
+                  </View>
+                </View>
+                <View>
+                  {showMap ? (
+                    <>
+                      <ImageZoom
+                        cropWidth={responsiveWidth(100)}
+                        cropHeight={responsiveHeight(100)}
+                        imageWidth={responsiveWidth(100)}
+                        imageHeight={responsiveHeight(100)}>
+                        <Image
+                          source={
+                            isSatelliteView
+                              ? option.imageSource
+                              : option.imageSource2
+                          }
+                          style={{
+                            flex: 1,
+                            width: responsiveWidth(100),
+                            height: responsiveWidth(100),
+                            resizeMode: 'cover',
+                            transform: [{rotate: imageRotation}], // Rotate the image
+                          }}
+                        />
+                      </ImageZoom>
+                    </>
+                  ) : (
+                    <>
+                      <ImageZoom
+                        cropWidth={responsiveWidth(100)}
+                        cropHeight={responsiveHeight(100)}
+                        imageWidth={responsiveWidth(100)}
+                        imageHeight={responsiveHeight(100)}>
+                        <Image
+                          source={option.imageSource2}
+                          style={{
+                            flex: 1,
+                            top: responsiveHeight(25),
+                            marginHorizontal: responsiveWidth(2),
+                            position: 'absolute',
+                            width: responsiveWidth(100),
+                            height: responsiveWidth(100),
+                            resizeMode: 'cover',
+                            transform: [{rotate: imageRotation}], // Rotate the image
+                            alignSelf: 'center',
+                          }}
+                        />
+                      </ImageZoom>
+                    </>
+                  )}
+                </View>
               </View>
             </View>
           </View>
           {/* main view end here */}
         </>
       )}
-
-      {/* Add your compass overlay content here */}
-
-      {/* <TouchableOpacity
-        onPress={() => setShowMap(!showMap)}
-        style={{
-          position: 'absolute',
-          top: 20,
-          right: 20,
-          padding: responsiveWidth(1.1),
-          borderRadius: responsiveWidth(10),
-          borderColor: 'red',
-          borderWidth: 2,
-          borderStyle: 'dashed',
-        }}>
-        {showMap ? (
-          <Image
-            source={require('../assets/images/compass.png')}
-            style={{
-              width: responsiveWidth(10),
-              height: responsiveWidth(10),
-            }}
-          />
-        ) : (
-          <Image
-            source={require('../assets/images/map.png')}
-            style={{
-              width: responsiveWidth(10),
-              height: responsiveWidth(10),
-            }}
-          />
-        )}
-      </TouchableOpacity> */}
 
       {option.compasId === 1 || option.compasId2 === 3 ? (
         <TouchableOpacity
@@ -487,7 +473,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#000080',
+    backgroundColor: '#0a2240',
   },
   heading: {
     fontSize: 24,
@@ -495,7 +481,50 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    // width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height,
+    width: responsiveWidth(100),
+    height: responsiveHeight(100),
+  },
+
+  // map: {
+  //   width: Dimensions.get('window').width,
+  //   height: Dimensions.get('window').height,
+  // },
+
+  horizontalLine: {
+    position: 'absolute',
+    width: '100%', // Full width
+    height: 2, // Height of the horizontal line
+    backgroundColor: 'red', // Color of the line
+    top: '50%', // Position it vertically in the middle
+  },
+  verticalLine: {
+    position: 'absolute',
+    width: 2, // Width of the vertical line
+    height: '100%', // Full height
+    backgroundColor: 'red', // Color of the line
+    left: '50%', // Position it horizontally in the middle
+  },
+  map2: {
+    flex: 1,
+  },
+  horizontalLine2: {
+    position: 'absolute',
+    top: '50%', // Adjust this value to position the horizontal line as desired
+    left: 0,
+    right: 0,
+    height: 1, // Set the height of the horizontal line
+    backgroundColor: 'red',
+    zIndex: 2,
+  },
+  verticalLine2: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: '50%', // Adjust this value to position the vertical line as desired
+    width: 1, // Set the width of the vertical line
+    backgroundColor: 'red',
+    zIndex: 2,
   },
 });

@@ -14,7 +14,7 @@ const GradientHeader2 = () => {
     <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 0}}
-      colors={['#000080', '#000080']}
+      colors={['#0a2240', '#0a2240']}
       style={{
         padding: responsiveWidth(3),
         flexDirection: 'row',

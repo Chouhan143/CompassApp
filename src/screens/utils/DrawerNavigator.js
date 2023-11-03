@@ -75,7 +75,7 @@ const DrawerNavigator = () => {
         options={{
           title: 'Compass',
           headerStyle: {
-            backgroundColor: '#000080',
+            backgroundColor: '#0a2240',
           },
           headerTitleStyle: {
             alignSelf: 'center',

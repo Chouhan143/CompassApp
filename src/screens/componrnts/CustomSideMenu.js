@@ -7,6 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
@@ -189,131 +191,153 @@ const CustomSideMenu = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 0.3}}>
-        <ImageBackground
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-          source={require('../assets/images/blurryBackground.jpg')}>
-          <Image
-            source={require('../assets/images/user3.png')}
-            style={{
-              width: responsiveWidth(20),
-              height: responsiveWidth(20),
-              position: 'absolute',
-            }}
-          />
-          <Text
-            style={{
-              fontSize: responsiveFontSize(2.5),
-              fontWeight: '800',
-              color: 'white',
-              paddingTop: responsiveHeight(15),
-            }}>
-            Hi,
-          </Text>
-          <Text
-            style={{
-              fontSize: responsiveFontSize(2),
-              fontWeight: '600',
-              color: 'white',
-              //   paddingTop: responsiveHeight(15),
-            }}>
-            Mr. {userName}
-          </Text>
-        </ImageBackground>
-      </View>
-      <View style={{flex: 0.09, backgroundColor: '#fff'}}>
-        <FlatList data={listArray} renderItem={renderItem} />
-      </View>
-      <View style={{flex: 0.6, backgroundColor: '#fff'}}>
-        <View
-          style={{
-            justifyContent: 'flex-start',
-            flexDirection: 'row',
-            marginLeft: responsiveWidth(5),
-          }}>
-          <Icon4 name="subscriptions" size={20} color="#000" />
-          <Text
-            style={{
-              paddingLeft: responsiveWidth(5),
-              color: '#000',
-              fontWeight: '700',
-              fontSize: responsiveFontSize(2),
-            }}>
-            Subscription
-          </Text>
-        </View>
-        {/* subscription data */}
-        <View
-          style={{
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            padding: responsiveWidth(5),
-            width: responsiveWidth(90),
-            height: responsiveHeight(44),
-            borderRadius: responsiveWidth(3),
-            backgroundColor: '#F5F5F5',
-            alignSelf: 'center',
-            marginTop: responsiveHeight(2),
-            elevation: 2,
-            shadowColor: '#000',
-          }}>
-          {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> */}
-          <View>
-            <View style={styles.subscriptionView}>
-              <Text style={styles.subscription}>Amount : $ {showAmount}</Text>
-            </View>
-            <View style={styles.subscriptionView}>
-              <Text style={styles.subscription}>Currency : {showCurrency}</Text>
-            </View>
-            <View style={styles.subscriptionView}>
-              <Text style={styles.subscription}>
-                Transaction Date : {trxDate}
-              </Text>
-            </View>
-            <View style={styles.subscriptionView}>
-              <Text style={styles.subscription}>
-                Transaction Expiry : {ExpDate}
-              </Text>
-            </View>
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar
+        backgroundColor="#0a2240" // Set the status bar background color to match your SafeAreaView
+        barStyle="light-content" // Set the status bar text color
+      />
+      <View style={{flex: 1}}>
+        <View style={{flex: 0.3}}>
+          <ImageBackground
+            style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}
+            source={require('../assets/images/bannerImage.jpg')}>
             <View
-              style={
-                status === 'Succeeded'
-                  ? styles.succeedBackground
-                  : styles.failBackground
-              }>
-              <Text style={[styles.subscription, {color: '#fff'}]}>
-                Status : {status}
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                paddingRight: responsiveWidth(5),
+              }}>
+              <Image
+                source={require('../assets/images/user3.png')}
+                style={{
+                  width: responsiveWidth(20),
+                  height: responsiveWidth(20),
+                  alignSelf: 'center',
+                  // position: 'absolute',
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2.5),
+                  fontWeight: '800',
+                  color: 'white',
+                  alignSelf: 'center',
+                  // paddingTop: responsiveHeight(15),
+                }}>
+                Hi,
+              </Text>
+              <Text
+                style={{
+                  fontSize: responsiveFontSize(2),
+                  fontWeight: '600',
+                  color: 'white',
+                  alignSelf: 'center',
+                  //   paddingTop: responsiveHeight(15),
+                }}>
+                Mr. {userName}
               </Text>
             </View>
-          </View>
-          {/* </View> */}
+          </ImageBackground>
         </View>
-      </View>
+        <View style={{flex: 0.09, backgroundColor: '#fff'}}>
+          <FlatList data={listArray} renderItem={renderItem} />
+        </View>
+        <View style={{flex: 0.6, backgroundColor: '#fff'}}>
+          <View
+            style={{
+              justifyContent: 'flex-start',
+              flexDirection: 'row',
+              marginLeft: responsiveWidth(5),
+            }}>
+            <Icon4 name="subscriptions" size={20} color="#000" />
+            <Text
+              style={{
+                paddingLeft: responsiveWidth(5),
+                color: '#000',
+                fontWeight: '700',
+                fontSize: responsiveFontSize(2),
+              }}>
+              Subscription
+            </Text>
+          </View>
+          {/* subscription data */}
+          <View
+            style={{
+              // justifyContent: 'center',
+              // alignItems: 'center',
+              padding: responsiveWidth(5),
+              width: responsiveWidth(90),
+              height: responsiveHeight(44),
+              borderRadius: responsiveWidth(3),
+              backgroundColor: '#F5F5F5',
+              alignSelf: 'center',
+              marginTop: responsiveHeight(2),
+              elevation: 2,
+              shadowColor: '#000',
+            }}>
+            {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> */}
+            <View>
+              <View style={styles.subscriptionView}>
+                <Text style={styles.subscription}>Amount : $ {showAmount}</Text>
+              </View>
+              <View style={styles.subscriptionView}>
+                <Text style={styles.subscription}>
+                  Currency : {showCurrency}
+                </Text>
+              </View>
+              <View style={styles.subscriptionView}>
+                <Text style={styles.subscription}>
+                  Transaction Date : {trxDate}
+                </Text>
+              </View>
+              <View style={styles.subscriptionView}>
+                <Text style={styles.subscription}>
+                  Transaction Expiry : {ExpDate}
+                </Text>
+              </View>
+              <View
+                style={
+                  status === 'Succeeded'
+                    ? styles.succeedBackground
+                    : styles.failBackground
+                }>
+                <Text style={[styles.subscription, {color: '#fff'}]}>
+                  Status : {status}
+                </Text>
+              </View>
+            </View>
+            {/* </View> */}
+          </View>
+        </View>
 
-      <TouchableOpacity
-        style={{
-          flex: 0.1,
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          flexDirection: 'row',
-          backgroundColor: '#000080',
-          paddingLeft: responsiveWidth(5),
-        }}
-        onPress={handleLogout}>
-        {/* <FlatList data={BottomList} renderItem={renderItem} /> */}
-        <Icon4 name="logout" size={20} color="#fff" />
-        <Text
+        <TouchableOpacity
           style={{
-            fontSize: responsiveFontSize(2),
-            fontWeight: '600',
-            color: '#fff',
-            paddingLeft: responsiveWidth(3),
-          }}>
-          Logout
-        </Text>
-      </TouchableOpacity>
-    </View>
+            // flex: 0.08,
+            width: responsiveWidth(80),
+            height: responsiveHeight(6),
+            borderRadius: responsiveWidth(1),
+            alignSelf: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            backgroundColor: '#0a2240',
+            paddingLeft: responsiveWidth(5),
+          }}
+          onPress={handleLogout}>
+          {/* <FlatList data={BottomList} renderItem={renderItem} /> */}
+          <Icon4 name="logout" size={20} color="#fff" />
+          <Text
+            style={{
+              fontSize: responsiveFontSize(2),
+              fontWeight: '700',
+              color: '#fff',
+              paddingLeft: responsiveWidth(3),
+            }}>
+            Logout
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
