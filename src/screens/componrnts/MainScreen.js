@@ -55,14 +55,14 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Period 8 & Period 9 Flying Star LuoPan',
-      imageSource: require('../assets/images/amit2.png'),
-      imageSource2: require('../assets/images/amit2.png'),
+      imageSource: require('../assets/images/FlyingStar.png'),
+      imageSource2: require('../assets/images/FlyingStar.png'),
     },
     {
       compasId2: 3,
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/KongDaB.png'),
-      imageSource2: require('../assets/images/KongDaB.png'),
+      imageSource: require('../assets/images/XKDG.png'),
+      imageSource2: require('../assets/images/XKDG.png'),
     },
 
     {
@@ -73,8 +73,8 @@ const MainScreen = ({navigation}) => {
 
     {
       name: 'Annual Ring 2023',
-      imageSource: require('../assets/images/2023.png'),
-      imageSource2: require('../assets/images/2023.png'),
+      imageSource: require('../assets/images/AnnualRing2023.png'),
+      imageSource2: require('../assets/images/AnnualRing2023.png'),
     },
   ];
 
@@ -190,18 +190,19 @@ const MainScreen = ({navigation}) => {
                   borderRadius: responsiveWidth(3),
                   shadowColor: responsiveHeight(5),
                   elevation: 5,
+                  paddingTop: responsiveHeight(2),
                 }}>
                 <Image
                   source={options[0].imageSource2}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(45),
                     resizeMode: 'contain',
                   }}
                 />
 
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.3}}>
                   <Text
                     style={{
                       fontSize: responsiveFontSize(1.7),
@@ -244,18 +245,19 @@ const MainScreen = ({navigation}) => {
                   borderRadius: responsiveWidth(3),
                   shadowColor: responsiveHeight(5),
                   elevation: 5,
+                  paddingTop: responsiveHeight(2),
                 }}>
                 <Image
                   source={options[1].imageSource}
                   style={{
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(45),
                     resizeMode: 'contain',
                     flex: 1,
                   }}
                 />
 
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.3}}>
                   <Text
                     style={{
                       fontSize: responsiveFontSize(1.7),
@@ -313,19 +315,20 @@ const MainScreen = ({navigation}) => {
                   borderRadius: responsiveWidth(3),
                   shadowColor: responsiveHeight(5),
                   elevation: 5,
+                  paddingTop: responsiveHeight(2),
                 }}>
                 <Image
                   source={options[3].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
-                    resizeMode: 'contain',
-                    paddingTop: responsiveHeight(2),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(45),
+                    resizeMode: 'cover',
+                    // paddingTop: responsiveHeight(1),
                   }}
                 />
 
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.3}}>
                   <Text
                     style={{
                       fontSize: responsiveFontSize(1.7),
@@ -368,6 +371,7 @@ const MainScreen = ({navigation}) => {
                   borderRadius: responsiveWidth(3),
                   shadowColor: responsiveHeight(5),
                   elevation: 5,
+                  paddingTop: responsiveHeight(2),
                 }}>
                 <Image
                   source={options[4].imageSource}
@@ -379,7 +383,7 @@ const MainScreen = ({navigation}) => {
                   }}
                 />
 
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.3}}>
                   <Text
                     style={{
                       fontSize: responsiveFontSize(1.7),
@@ -438,18 +442,19 @@ const MainScreen = ({navigation}) => {
                   borderRadius: responsiveWidth(3),
                   shadowColor: responsiveHeight(5),
                   elevation: 5,
+                  paddingTop: responsiveHeight(2),
                 }}>
                 <Image
                   source={options[2].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
-                    resizeMode: 'contain',
+                    width: responsiveWidth(43),
+                    height: responsiveWidth(43),
+                    resizeMode: 'cover',
                   }}
                 />
 
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.4}}>
                   <Text
                     style={{
                       fontSize: responsiveFontSize(1.7),
@@ -491,18 +496,19 @@ const MainScreen = ({navigation}) => {
                   borderRadius: responsiveWidth(3),
                   shadowColor: responsiveHeight(5),
                   elevation: 5,
+                  paddingTop: responsiveHeight(2),
                 }}>
                 <Image
                   source={options[5].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(30),
-                    height: responsiveWidth(30),
+                    width: responsiveWidth(45),
+                    height: responsiveWidth(55),
                     resizeMode: 'contain',
                   }}
                 />
 
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.3}}>
                   <Text
                     style={{
                       fontSize: responsiveFontSize(1.7),

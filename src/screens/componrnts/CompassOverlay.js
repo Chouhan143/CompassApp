@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CompassHeading from 'react-native-compass-heading'; // Use only CompassHeading
 import Geolocation from 'react-native-geolocation-service';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import MapView, {Marker} from 'react-native-maps'; // Import MapView from react-native-maps
+import MapView, {Marker,Polyline } from 'react-native-maps'; // Import MapView from react-native-maps
 import Geocoding from 'react-native-geocoding';
 import ImageZoom from 'react-native-image-pan-zoom';
 const CompassOverlay = ({route}) => {
@@ -152,10 +152,25 @@ const CompassOverlay = ({route}) => {
                   longitude: parseFloat(longitude),
                 }}
               />
-              {/* Red horizontal line */}
-              <View style={styles.horizontalLine2} />
-              {/* Vertical line */}
-              <View style={styles.verticalLine2} />
+            {/* Horizontal line */}
+    <Polyline
+      coordinates={[
+        { latitude: parseFloat(latitude) - 0.001, longitude: parseFloat(longitude) - 0.001 },
+        { latitude: parseFloat(latitude) - 0.001, longitude: parseFloat(longitude) + 0.001 },
+      ]}
+      strokeColor="#FF0000"
+      strokeWidth={2}
+    />
+
+    {/* Vertical line */}
+    <Polyline
+      coordinates={[
+        { latitude: parseFloat(latitude) - 0.001, longitude: parseFloat(longitude) - 0.001 },
+        { latitude: parseFloat(latitude) + 0.001, longitude: parseFloat(longitude) - 0.001 },
+      ]}
+      strokeColor="#FF0000"
+      strokeWidth={2}
+    />
             </MapView>
           </View>
 
@@ -511,20 +526,16 @@ const styles = StyleSheet.create({
   },
   horizontalLine2: {
     position: 'absolute',
-    top: '50%', // Adjust this value to position the horizontal line as desired
-    left: 0,
-    right: 0,
-    height: 1, // Set the height of the horizontal line
+    width: '100%',
+    height: 2,
     backgroundColor: 'red',
-    zIndex: 2,
+    top: '50%',
   },
   verticalLine2: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: '50%', // Adjust this value to position the vertical line as desired
-    width: 1, // Set the width of the vertical line
+    width: 2,
+    height: '100%',
     backgroundColor: 'red',
-    zIndex: 2,
+    left: '50%',
   },
 });
