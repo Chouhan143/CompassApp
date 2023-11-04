@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import CompassHeading from 'react-native-compass-heading'; // Use only CompassHeading
 import Geolocation from 'react-native-geolocation-service';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import MapView, {Marker,Polyline } from 'react-native-maps'; // Import MapView from react-native-maps
+import MapView, {Marker, Polyline} from 'react-native-maps'; // Import MapView from react-native-maps
 import Geocoding from 'react-native-geocoding';
 import ImageZoom from 'react-native-image-pan-zoom';
 const CompassOverlay = ({route}) => {
@@ -152,25 +152,26 @@ const CompassOverlay = ({route}) => {
                   longitude: parseFloat(longitude),
                 }}
               />
-            {/* Horizontal line */}
-    <Polyline
-      coordinates={[
-        { latitude: parseFloat(latitude) - 0.001, longitude: parseFloat(longitude) - 0.001 },
-        { latitude: parseFloat(latitude) - 0.001, longitude: parseFloat(longitude) + 0.001 },
-      ]}
-      strokeColor="#FF0000"
-      strokeWidth={2}
-    />
 
-    {/* Vertical line */}
-    <Polyline
-      coordinates={[
-        { latitude: parseFloat(latitude) - 0.001, longitude: parseFloat(longitude) - 0.001 },
-        { latitude: parseFloat(latitude) + 0.001, longitude: parseFloat(longitude) - 0.001 },
-      ]}
-      strokeColor="#FF0000"
-      strokeWidth={2}
-    />
+              <Polyline
+                coordinates={[
+                  {latitude: -180, longitude: parseFloat(longitude)},
+                  {latitude: 180, longitude: parseFloat(longitude)},
+                ]}
+                strokeColor="#FF0000"
+                strokeWidth={2}
+              />
+
+              {/* Vertical line */}
+              <Polyline
+                coordinates={[
+                  {latitude: parseFloat(latitude), longitude: -90},
+                  {latitude: parseFloat(latitude), longitude: 180},
+                ]}
+                strokeColor="#FF0000"
+                strokeWidth={2}
+                style={{position: 'absolute'}}
+              />
             </MapView>
           </View>
 
