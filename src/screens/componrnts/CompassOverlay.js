@@ -179,7 +179,7 @@ const CompassOverlay = ({route}) => {
           <View
             style={{
               position: 'absolute',
-              top: responsiveHeight(3),
+              top: responsiveHeight(0),
             }}>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <View
@@ -231,7 +231,8 @@ const CompassOverlay = ({route}) => {
                 }
                 style={{
                   position: 'absolute',
-                  top: responsiveHeight(24),
+                  // top: responsiveHeight(24),
+                  top: responsiveHeight(50) - responsiveWidth(50),
                   width: responsiveWidth(100),
                   height: responsiveWidth(100),
                   resizeMode: 'cover',
@@ -394,7 +395,8 @@ const CompassOverlay = ({route}) => {
                           source={option.imageSource2}
                           style={{
                             flex: 1,
-                            top: responsiveHeight(25),
+                            // top: responsiveHeight(25),
+                            top: responsiveHeight(50) - responsiveWidth(50),
                             marginHorizontal: responsiveWidth(2),
                             position: 'absolute',
                             width: responsiveWidth(100),
