@@ -9,6 +9,7 @@ import {PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 import HomeScreen from './src/screens/componrnts/HomeScreen';
 import CheckoutPage from './src/screens/componrnts/CheckoutPage';
+import Ebook from './src/screens/componrnts/Ebook';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -102,6 +103,38 @@ function App() {
     );
   };
 
+  const GradientHeader3 = () => {
+    const navigation = useNavigation();
+    return (
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={['#0a2240', '#0a2240']}
+        style={{
+          padding: responsiveWidth(3),
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Icon
+          name="arrowleft"
+          size={responsiveFontSize(3)}
+          color="#fff"
+          style={{marginLeft: responsiveWidth(3)}}
+          onPress={() => navigation.navigate('Home')}
+        />
+        <Text
+          style={{
+            color: '#fff',
+            fontSize: responsiveFontSize(2.5),
+            fontWeight: '700',
+            paddingLeft: responsiveWidth(3),
+          }}>
+          Ebook
+        </Text>
+      </LinearGradient>
+    );
+  };
+
   useEffect(() => {
     // Check if a token exists in AsyncStorage
     const checkToken = async () => {
@@ -188,6 +221,17 @@ function App() {
               headerShown: false,
             }}
           />
+
+          <Stack.Screen
+            name="Ebook"
+            component={Ebook}
+            options={{
+              header: () => <GradientHeader3 />,
+              headerTitleStyle: {alignSelf: 'center'},
+              headerTintColor: 'white',
+            }}
+          />
+
           <Stack.Screen
             name="Login"
             component={Login}

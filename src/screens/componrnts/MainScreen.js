@@ -21,7 +21,7 @@ import SubscriptionModal from './SubscriptionModal';
 import CustomSideMenu from './CustomSideMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../utils/context/LoginProvider';
-
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 const MainScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const {setIsLoggedIn} = useLogin();
@@ -149,6 +149,11 @@ const MainScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.name_sec_icon}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Ebook')}
+            style={{paddingRight: responsiveWidth(3)}}>
+            <SimpleLineIcons name="notebook" size={20} color="#fff" />
+          </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout}>
             <Icon4 name="logout" size={25} color="#fff" />
           </TouchableOpacity>
@@ -565,8 +570,10 @@ const styles = StyleSheet.create({
     marginHorizontal: responsiveWidth(1),
   },
   name_sec_icon: {
-    flex: 0.8,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    paddingRight: responsiveWidth(2),
   },
 });
