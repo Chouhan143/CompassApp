@@ -301,8 +301,8 @@ const MainScreen = ({navigation}) => {
                   source={options[3].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(45),
-                    height: responsiveWidth(45),
+                    width: responsiveWidth(42),
+                    height: responsiveWidth(42),
                     resizeMode: 'cover',
                     // paddingTop: responsiveHeight(1),
                   }}

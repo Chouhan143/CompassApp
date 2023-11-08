@@ -263,7 +263,6 @@ const CompassOverlay = ({route}) => {
                   alignItems: 'center',
                   backgroundColor: 'orange',
                   width: responsiveWidth(70),
-
                   paddingVertical: responsiveHeight(2),
                   borderRadius: responsiveWidth(1),
                   marginTop: responsiveHeight(3),
