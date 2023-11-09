@@ -163,7 +163,7 @@ const CompassOverlay = ({route}) => {
               />
 
               {/* Vertical line */}
-              <Polyline
+              {/* <Polyline
                 coordinates={[
                   {latitude: parseFloat(latitude), longitude: -90},
                   {latitude: parseFloat(latitude), longitude: 180},
@@ -171,6 +171,14 @@ const CompassOverlay = ({route}) => {
                 strokeColor="#FF0000"
                 strokeWidth={2}
                 style={{position: 'absolute'}}
+              /> */}
+              <Polyline
+                coordinates={[
+                  {latitude: parseFloat(latitude), longitude: -90},
+                  {latitude: parseFloat(latitude), longitude: 180},
+                ]}
+                strokeColor="#FF0000"
+                strokeWidth={2}
               />
             </MapView>
           </View>
