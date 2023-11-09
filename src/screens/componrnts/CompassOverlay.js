@@ -142,8 +142,10 @@ const CompassOverlay = ({route}) => {
               region={{
                 latitude: parseFloat(latitude),
                 longitude: parseFloat(longitude),
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                // latitudeDelta: 0.0922,
+                // longitudeDelta: 0.0421,
+                latitudeDelta: 0.0922, // You can try adjusting this value
+                longitudeDelta: 0.0922,
               }}
               mapType={isSatelliteView ? 'satellite' : 'standard'}>
               <Marker
@@ -153,33 +155,67 @@ const CompassOverlay = ({route}) => {
                 }}
               />
 
-              <Polyline
+              {/* <Polyline
                 coordinates={[
-                  {latitude: -180, longitude: parseFloat(longitude)},
-                  {latitude: 180, longitude: parseFloat(longitude)},
+                  {
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude),
+                  },
+                  {
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude) + 180,
+                  },
                 ]}
-                strokeColor="#FF0000"
+                strokeColor="#FF5733"
                 strokeWidth={2}
               />
 
-              {/* Vertical line */}
-              {/* <Polyline
-                coordinates={[
-                  {latitude: parseFloat(latitude), longitude: -90},
-                  {latitude: parseFloat(latitude), longitude: 180},
-                ]}
-                strokeColor="#FF0000"
-                strokeWidth={2}
-                style={{position: 'absolute'}}
-              /> */}
               <Polyline
                 coordinates={[
-                  {latitude: parseFloat(latitude), longitude: -90},
-                  {latitude: parseFloat(latitude), longitude: 180},
+                  {
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude),
+                  },
+                  {
+                    latitude: parseFloat(latitude) + 180,
+                    longitude: parseFloat(longitude),
+                  },
                 ]}
-                strokeColor="#FF0000"
+                strokeColor="#FF5733"
                 strokeWidth={2}
               />
+
+              <Polyline
+                coordinates={[
+                  {
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude),
+                  },
+                  {
+                    latitude: parseFloat(latitude) - 90,
+                    longitude: parseFloat(longitude),
+                  },
+                ]}
+                strokeColor="#FF5733"
+                strokeWidth={2}
+              />
+
+              <Polyline
+                coordinates={[
+                  {
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude),
+                  },
+                  {
+                    latitude: parseFloat(latitude),
+                    longitude: parseFloat(longitude) + 90,
+                  },
+                ]}
+                strokeColor="#FF5733"
+                strokeWidth={2}
+              /> */}
+
+              {/* Vertical line */}
             </MapView>
           </View>
 
@@ -189,7 +225,15 @@ const CompassOverlay = ({route}) => {
               position: 'absolute',
               top: responsiveHeight(0),
             }}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={[
+                {justifyContent: 'center', alignItems: 'center'},
+                styles.map,
+              ]}>
+              <View style={styles.horizontalLine} />
+
+              {/* Vertical Line */}
+              <View style={styles.verticalLine} />
               <View
                 style={{
                   justifyContent: 'center',
@@ -233,6 +277,7 @@ const CompassOverlay = ({route}) => {
                   }}
                 />
               </View>
+
               <Image
                 source={
                   isSatelliteView ? option.imageSource : option.imageSource2
@@ -249,6 +294,7 @@ const CompassOverlay = ({route}) => {
               />
             </View>
           </View>
+
           {/*  lat long  box  */}
           <View
             style={{

@@ -50,8 +50,8 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Annual Ring 2024',
-      imageSource: require('../assets/images/Basic.png'),
-      imageSource2: require('../assets/images/Basic.png'),
+      imageSource: require('../assets/images/2024AunnalRing.png'),
+      imageSource2: require('../assets/images/2024AunnalRing.png'),
     },
     {
       name: 'Period 8 & Period 9 Flying Star LuoPan',
@@ -60,21 +60,21 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/XKDG.png'),
-      imageSource2: require('../assets/images/XKDG.png'),
+      imageSource: require('../assets/images/XuangKon.png'),
+      imageSource2: require('../assets/images/XuangKon.png'),
     },
 
     {
       compasId2: 3,
-      name: 'Transparent vector LuoPAn',
-      imageSource: require('../assets/images/TransparentVectoLuoPAn.png'),
-      imageSource2: require('../assets/images/TransparentVectoLuoPAn.png'),
+      name: 'Smart LuoPan Transparent Version',
+      imageSource: require('../assets/images/SmartLuoPanTransparetVersion.png'),
+      imageSource2: require('../assets/images/SmartLuoPanTransparetVersion.png'),
     },
 
     {
       name: 'Annual Ring 2023',
-      imageSource: require('../assets/images/AnnualRing2023.png'),
-      imageSource2: require('../assets/images/AnnualRing2023.png'),
+      imageSource: require('../assets/images/2023Annual.png'),
+      imageSource2: require('../assets/images/2023Annual.png'),
     },
   ];
 
@@ -295,7 +295,7 @@ const MainScreen = ({navigation}) => {
               <TouchableOpacity
                 style={{flex: 0.7}}
                 onPress={() =>
-                  navigation.navigate('CompassOverlay', {option: options[2]})
+                  navigation.navigate('CompassOverlay', {option: options[3]})
                 }>
                 <Image
                   source={options[3].imageSource}
