@@ -55,13 +55,13 @@ const MainScreen = ({navigation}) => {
     },
     {
       name: 'Period 8 & Period 9 Flying Star LuoPan',
-      imageSource: require('../assets/images/FlyingStar.png'),
-      imageSource2: require('../assets/images/FlyingStar.png'),
+      imageSource: require('../assets/images/Period8&Period9F.png'),
+      imageSource2: require('../assets/images/Period8&Period9F.png'),
     },
     {
       name: 'Xuan Kong Da Gua Rings ',
-      imageSource: require('../assets/images/XuangKon.png'),
-      imageSource2: require('../assets/images/XuangKon.png'),
+      imageSource: require('../assets/images/XuangKonDaGuaF.png'),
+      imageSource2: require('../assets/images/XuangKonDaGuaF.png'),
     },
 
     {
