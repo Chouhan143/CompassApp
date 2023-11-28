@@ -20,7 +20,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 const PaymentScreen = () => {
-  const [amount, setAmount] = useState(68);
+  const [amount, setAmount] = useState(1);
   const {confirmPayment, loading} = useConfirmPayment();
   const [cardInfo, setCardInfo] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -93,7 +93,7 @@ const PaymentScreen = () => {
         };
 
         const transactionStore = await axios.post(
-          'https://app.srninfotech.com/compass/api/transaction-store',
+          'https://smartluopan.com/api/transaction-store',
           payload,
           {headers},
         );
@@ -108,6 +108,7 @@ const PaymentScreen = () => {
         console.log(
           'Payment not successful',
           confirmPaymentIntent?.error?.message,
+          confirmPaymentIntent,
         );
         setErrorPayment('Invalid User Card Data');
         // setErrorPayment(confirmPaymentIntent?.error?.message);
