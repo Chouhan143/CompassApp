@@ -130,6 +130,7 @@ const Login = () => {
               color: '#fff',
               shadowColor: '#fff',
               elevation: 1,
+              fontSize: responsiveFontSize(1.6),
             }}
           />
 
@@ -150,6 +151,7 @@ const Login = () => {
               elevation: 1,
               marginTop: responsiveHeight(2),
               color: '#fff',
+              fontSize: responsiveFontSize(1.6),
             }}
           />
 

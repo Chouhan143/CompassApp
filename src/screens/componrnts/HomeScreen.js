@@ -123,14 +123,14 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: responsiveHeight(10),
+    paddingTop: responsiveHeight(3),
     // justifyContent: 'center',
   },
   content2: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    marginBottom: responsiveHeight(6),
+    marginBottom: responsiveHeight(2),
   },
   textHeading: {
     fontSize: responsiveFontSize(3),

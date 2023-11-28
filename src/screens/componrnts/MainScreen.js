@@ -152,10 +152,14 @@ const MainScreen = ({navigation}) => {
           <TouchableOpacity
             onPress={() => navigation.navigate('Ebook')}
             style={{paddingRight: responsiveWidth(3)}}>
-            <SimpleLineIcons name="notebook" size={20} color="#fff" />
+            <SimpleLineIcons
+              name="notebook"
+              size={responsiveFontSize(2.5)}
+              color="#fff"
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleLogout}>
-            <Icon4 name="logout" size={25} color="#fff" />
+            <Icon4 name="logout" size={responsiveFontSize(2.5)} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -301,8 +305,8 @@ const MainScreen = ({navigation}) => {
                   source={options[3].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(42),
-                    height: responsiveWidth(42),
+                    width: responsiveWidth(35),
+                    height: responsiveWidth(35),
                     resizeMode: 'cover',
                     // paddingTop: responsiveHeight(1),
                   }}
@@ -355,8 +359,8 @@ const MainScreen = ({navigation}) => {
                 <Image
                   source={options[4].imageSource}
                   style={{
-                    width: responsiveWidth(100),
-                    height: responsiveWidth(100),
+                    width: responsiveWidth(40),
+                    height: responsiveWidth(40),
                     resizeMode: 'contain',
                     flex: 1,
                   }}
@@ -423,8 +427,8 @@ const MainScreen = ({navigation}) => {
                   source={options[2].imageSource}
                   style={{
                     flex: 1,
-                    width: responsiveWidth(40),
-                    height: responsiveWidth(40),
+                    width: responsiveWidth(32),
+                    height: responsiveWidth(32),
                     resizeMode: 'cover',
                   }}
                 />

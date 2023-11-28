@@ -34,7 +34,7 @@ const Stack = createStackNavigator();
 
 function App() {
   const publishableKey =
-    'pk_test_51O1ruqGeHhuFbcStdbNBd4c8Nv1didmZ5pSfSqEIxOuAmVm6YYbI9ZqFDB7eEtXgbOW7aG5XFm7kH22xBNgasrcF00zsIMzz6f';
+    'pk_live_51O1ruqGeHhuFbcSto0o2KGgUJ8Rzq2ZgTbR0KvZv39sx9mFmEqJQV3dM3HPmdHuEPrt71NU1CnGRohrv98aayuot00IQGDaawF';
 
   const {isLoggedIn, setIsLoggedIn} = useLogin();
   const [initializing, setInitializing] = useState(true);
