@@ -38,6 +38,7 @@ function App() {
 
   const {isLoggedIn, setIsLoggedIn} = useLogin();
   const [initializing, setInitializing] = useState(true);
+  const [checkUserPayment, setCheckUserPayment] = useState('');
   console.log('isLoggedIn', isLoggedIn);
   const GradientHeader1 = () => {
     const navigation = useNavigation();
@@ -140,6 +141,9 @@ function App() {
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem('access_token');
+        const paymentStatus = await AsyncStorage.getItem('paymentStatus');
+        setCheckUserPayment(JSON.parse(paymentStatus));
+
         if (token) {
           setIsLoggedIn(token);
         }
@@ -161,7 +165,9 @@ function App() {
     <NavigationContainer>
       <StripeProvider publishableKey={publishableKey}>
         <Stack.Navigator
-          initialRouteName={isLoggedIn ? 'Home' : 'HomeScreen'}
+          initialRouteName={
+            isLoggedIn ? (checkUserPayment ? 'Home' : 'Login') : 'HomeScreen'
+          }
           // drawerContent={props => <CustomSideMenu {...props} />}
         >
           <Stack.Screen

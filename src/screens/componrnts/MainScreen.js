@@ -20,11 +20,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import SubscriptionModal from './SubscriptionModal';
 import CustomSideMenu from './CustomSideMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useLogin} from '../utils/context/LoginProvider';
+import {useLogin, useTransactionFlag} from '../utils/context/LoginProvider';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 const MainScreen = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const {setIsLoggedIn} = useLogin();
+  const {transactionFlag} = useTransactionFlag();
   useEffect(() => {
     const backAction = () => {
       BackHandler.exitApp(); // Exit the app
@@ -112,6 +113,19 @@ const MainScreen = ({navigation}) => {
     }
     fetchUserName();
   }, []);
+
+  // useEffect(() => {
+  //   // You can use the transactionFlag here
+  //   if (transactionFlag) {
+  //     // Do something when transactionFlag is true
+  //     console.log('Transaction is valid');
+  //     navigation.navigate('Home');
+  //   } else {
+  //     // Do something when transactionFlag is false
+  //     console.log('Transaction is not valid');
+  //     navigation.navigate('Home');
+  //   }
+  // }, [transactionFlag]);
 
   return (
     <View
