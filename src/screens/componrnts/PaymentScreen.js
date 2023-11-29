@@ -20,7 +20,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 const PaymentScreen = () => {
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(68);
   const {confirmPayment, loading} = useConfirmPayment();
   const [cardInfo, setCardInfo] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
